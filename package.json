@@ -1,0 +1,19 @@
+{
+  "name": "projet_docker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RAYWINN43/Projet_DOCKER.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RAYWINN43/Projet_DOCKER/issues"
+  },
+  "homepage": "https://github.com/RAYWINN43/Projet_DOCKER#readme"
+}
