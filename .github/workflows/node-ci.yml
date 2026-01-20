@@ -2,9 +2,9 @@ name: Node + Docker CI
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "evan"]
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "evan"]
 
 jobs:
   build:
