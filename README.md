@@ -1,6 +1,6 @@
 # Site bande annonce film
 
-> **⚠️ MEMBRES DU GROUPE :**
+> **MEMBRES DU GROUPE :**
 > - **BLAIN Antoine**
 > - **PECONTAL Corentin** 
 > - **MARTIN Evan**
