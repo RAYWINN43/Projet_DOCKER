@@ -2,9 +2,9 @@ name: Docker CI
 
 on:
   push:
-    branches: ["evan"]
+    branches: ["main", "staging"]
   pull_request:
-    branches: ["evan"]
+    branches: ["main", "staging"]
 
 jobs:
   docker:
