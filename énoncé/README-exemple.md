@@ -1,19 +1,21 @@
 # Titre du Projet (ex: My Super DevOps Stack)
 
 > **⚠️ MEMBRES DU GROUPE :**
-> - **NOM Prénom** (Rôle éventuel, ex: Dev)
-> - **NOM Prénom** (Rôle éventuel, ex: Infra)
-> - **NOM Prénom**
+> - **BLAIN Antoine**
+> - **PECONTAL Corentin** 
+> - **MARTIN Evan**
 
 ---
 
 ## 1. Présentation du Projet
-*Décrivez ici en quelques lignes le but de votre application.*
-*Exemple : Ce projet est une stack permettant de gérer une liste de tâches (TodoList) avec une interface web et une base de données, le tout monitoré via Portainer.*
+Dans ce projet, nous allons créer un site très basique dédié aux bandes-annonces de films. L’objectif principal est de mettre en place un CRUD (Créer, Lire, Mettre à jour, Supprimer) pour gérer facilement les films et leurs bandes-annonces.
 
 **Fonctionnalités principales :**
-* Fonctionnalité 1
-* Fonctionnalité 2
+* Afficher des trailers
+* Ajouter des trailers
+* Modifier les trailers
+* Suppression des trailers en cascade 
+* barre de recherche (type AJAX si le temps)
 
 **Lien accessible (si tunnel actif) :** [https://votre-url-random.trycloudflare.com](https://votre-url-random.trycloudflare.com)
 
