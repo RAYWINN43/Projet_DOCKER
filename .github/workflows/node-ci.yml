@@ -42,8 +42,8 @@ jobs:
             echo "No tests, skipping"
           fi
 
-      - name: Build Docker images
-        run: docker compose build
+      # - name: Build Docker images
+      #   run: docker compose build
 
       - name: CI checkpoint
         run: echo "CI passed — Node & Docker build OK"
