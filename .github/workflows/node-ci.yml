@@ -1,0 +1,49 @@
+name: Node CI
+
+on:
+  push:
+    branches: [ "evan"]
+  pull_request:
+    branches: [ "evan"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install backend dependencies
+        working-directory: ./netnet
+        run: npm ci
+
+      - name: Run lint (if exists)
+        working-directory: ./netnet
+        run: |
+          if npm run | grep -q lint; then
+            npm run lint
+          else
+            echo "No lint script, skipping"
+          fi
+
+      - name: Run tests (if exists)
+        working-directory: ./netnet
+        run: |
+          if npm run | grep -q test; then
+            npm test
+          else
+            echo "No tests, skipping"
+          fi
+
+      # - name: Build Docker images
+      #   run: docker compose build
+
+      - name: CI checkpoint
+        run: echo "CI passed — Node build OK"
