@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"test passed :)",
+    "test": "echo \"test passed :)\"",
     "start": "node netnet/app.js"
   },
   "repository": {
