@@ -1,18 +1,78 @@
 services:
-  db:
-    image: mysql:8.0
-    container_name: mysql_container
-    env_file:
-      - .env
-    ports:
-      - "${MYSQL_PORT}:3306"
+  mongo:
+    image: mongo
+    container_name: mongodb
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - my_network
+      - mongodb-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  models:
+    build:
+      context: ./netnet/src/models
+      dockerfile: ops/Dockerfile
+    volumes:
+      - ./netnet/src/models:/app
+    working_dir: /app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  routes:
+    build:
+      context: ./netnet/src/routes
+      dockerfile: ops/Dockerfile
+    volumes:
+      - ./netnet/src/routes:/app
+    working_dir: /app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/routes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  front:
+    build:
+      context: ./netnet/src/front
+      dockerfile: ops/Dockerfile
+    volumes:
+      - ./netnet/src/front:/app
+    working_dir: /app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      models:
+        condition: service_healthy
+      routes:
+        condition: service_healthy
+      front:
+        condition: service_started
 
 volumes:
-  db_data:
-
-networks:
-  my_network:
+  mongodb-data:
