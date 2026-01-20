@@ -1,0 +1,33 @@
+name: Docker CI
+
+on:
+  push:
+    branches: ["evan"]
+  pull_request:
+    branches: ["evan"]
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build images
+        run: docker compose build
+
+      - name: Start services
+        run: docker compose up -d
+
+      - name: Wait for healthchecks
+        run: |
+          docker compose ps
+          sleep 20
+          docker compose ps
+
+      - name: Smoke test API
+        run: curl -f http://localhost:8080/api/films
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
