@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Picture Details - Netnet</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-container {
+            display: flex;
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 2rem auto;
+        }
+        .details-movie {
+            flex: 1;
+        }
+        .details-movie img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        .details-info {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #333;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Netnet</h1>
+    </header>
+    <nav>
+        <a href="home.html">Alpha</a>
+        <a href="#about">Bêta</a>
+        <a href="#contact">Gamma</a>
+    </nav>
+    <main>
+        <a href="home.html" class="back-link">← Back to Home</a>
+        <div class="details-container">
+            <div class="details-movie">
+                <img id="detailMovie" src="image1.png" alt="Movie details">
+            </div>
+            <div class="details-info">
+                <h2 id="detailTitle">Picture Details</h2>
+                <p><strong>Image:</strong> <span id="detailName">image1.png</span></p>
+                <p id="detailDescription">Loading details about the selected picture...</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>Footer</p>
+    </footer>
+    <script>
+        // Get image parameter from URL
+        const params = new URLSearchParams(window.location.search);
+        const movieIndex = params.get('image') || '1';
+        const movieName = `image${movieIndex}.png`;
+
+        // Update the page with details
+        document.getElementById('detailMovie').src = movieName;
+        document.getElementById('detailMovie').alt = `Picture ${movieIndex}`;
+        document.getElementById('detailName').textContent = movieName;
+
+        // Sample descriptions for each image
+        const descriptions = {
+            '1': 'Movie 1',
+            '2': 'Movie 2',
+            '3': 'Movie 3',
+            '4': 'Movie 4',
+            '5': 'Movie 5'
+        };
+
+        document.getElementById('detailTitle').textContent = `Picture ${movieIndex}`;
+        document.getElementById('detailDescription').textContent = descriptions[movieIndex] || 'No description available.';
+    </script>
+</body>
+</html>
