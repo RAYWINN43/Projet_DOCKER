@@ -1,25 +1,28 @@
+
 @startuml
-!theme sunlust
-title Architecture DevOps du Projet
+!theme bluegray
+title Architecture – Site de bandes-annonces
+
+cloud "Internet" {
+    actor Utilisateur
+}
 
 node "Docker Host" {
+
     component "Cloudflared" as Tunnel #Orange
-    component "Caddy" as Proxy #Yellow
-    
+    component "Caddy" as Proxy #red
+
     package "Internal Network" {
-        component "Web App" as Web
-        component "Database" as DB
-        component "Portainer" as Admin
+
+        component "Front-end" as Front
+        component "API Node.js" as API
+        component "MySQL" as DB
     }
 }
 
-cloud "Internet" {
-    actor User
-}
-
-User --> Tunnel : HTTPS
+Utilisateur --> Tunnel : HTTPS
 Tunnel --> Proxy : HTTP
-Proxy --> Web : /
-Proxy --> Admin : /admin
-Web --> DB
+Proxy --> Front : /
+Proxy --> API : /api/films
+API --> DB
 @enduml

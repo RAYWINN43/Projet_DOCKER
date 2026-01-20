@@ -1,0 +1,17 @@
+@startuml
+title Architecture
+
+node "Client" {
+  component "Navigateur"
+}
+
+node "Docker" {
+  component "Front-end"
+  component "API Node.js"
+  component "Base de données MangoDB"
+}
+
+"Navigateur" --> "Front-end"
+"Front-end" --> "API Node.js"
+"API Node.js" --> "Base de données MangoDB"
+@enduml
