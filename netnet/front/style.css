@@ -26,7 +26,7 @@ h1 {
     margin-left: 2%;
 }
 nav {
-    background-color: #444;
+    background-color: #444C;
     padding: 1rem;
 }
 nav a {
@@ -94,7 +94,7 @@ footer {
 }
 .details-info {
     background: rgba(255, 255, 255, 0.95);
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -114,7 +114,7 @@ footer {
     padding-bottom: 1.5rem;
 }
 .detail-field {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 .detail-field:last-child {
     margin-bottom: 0;
@@ -143,6 +143,15 @@ footer {
     transition: opacity 0.2s;
 }
 .back-link:hover {
+    opacity: 0.8;
+}
+.top-link {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+.top-link:hover {
     opacity: 0.8;
 }
 @media (max-width: 768px) {
