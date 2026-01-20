@@ -5,38 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Picture Details - Netnet</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .details-container {
-            display: flex;
-            gap: 2rem;
-            max-width: 1000px;
-            margin: 2rem auto;
-        }
-        .details-movie {
-            flex: 1;
-        }
-        .details-movie img {
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        .details-info {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 8px;
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 1rem;
-            color: #333;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .back-link:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -54,9 +22,23 @@
                 <img id="detailMovie" src="image1.png" alt="Movie details">
             </div>
             <div class="details-info">
-                <h2 id="detailTitle">Picture Details</h2>
-                <p><strong>Image:</strong> <span id="detailName">image1.png</span></p>
-                <p id="detailDescription">Loading details about the selected picture...</p>
+                <h2 id="detailTitle">Movie Title</h2>
+                <p><span id="detailName">image1.png</span></p>
+                
+                <div class="detail-field">
+                    <label>Author</label>
+                    <p id="authorInfo">Unknown</p>
+                </div>
+                
+                <div class="detail-field">
+                    <label>Genre</label>
+                    <p id="genreInfo">-</p>
+                </div>
+                
+                <div class="detail-field">
+                    <label>Description</label>
+                    <p id="descriptionInfo">No description available.</p>
+                </div>
             </div>
         </div>
     </main>
@@ -66,25 +48,43 @@
     <script>
         // Get image parameter from URL
         const params = new URLSearchParams(window.location.search);
-        const movieIndex = params.get('image') || '1';
-        const movieName = `image${movieIndex}.png`;
+        const movieIndex = params.get('movie') || '1';
+        const movieName = `Movie ${movieIndex}`;
 
         // Update the page with details
-        document.getElementById('detailMovie').src = movieName;
-        document.getElementById('detailMovie').alt = `Picture ${movieIndex}`;
+        document.getElementById('detailMovie').src = `image${movieIndex}.png`;
+        document.getElementById('detailMovie').alt = `${movieName}`;
         document.getElementById('detailName').textContent = movieName;
 
         // Sample descriptions for each image
         const descriptions = {
-            '1': 'Movie 1',
-            '2': 'Movie 2',
-            '3': 'Movie 3',
-            '4': 'Movie 4',
-            '5': 'Movie 5'
+            '1': 'An epic tale of courage and survival.',
+            '2': 'A thrilling action-packed adventure.',
+            '3': 'The legendary story of ancient warfare.',
+            '4': 'A superhero team comes together.',
+            '5': 'A sci-fi masterpiece beyond imagination.'
         };
 
-        document.getElementById('detailTitle').textContent = `Picture ${movieIndex}`;
-        document.getElementById('detailDescription').textContent = descriptions[movieIndex] || 'No description available.';
+        const authors = {
+            '1': 'Director One',
+            '2': 'Director Two',
+            '3': 'Director Three',
+            '4': 'Director Four',
+            '5': 'Director Five'
+        };
+
+        const genres = {
+            '1': 'Drama',
+            '2': 'Action',
+            '3': 'War',
+            '4': 'Superhero',
+            '5': 'Science Fiction'
+        };
+
+        document.getElementById('detailTitle').textContent = `${descriptions[movieIndex] ? descriptions[movieIndex].split(' ')[0] : 'Movie'} ${movieIndex}`;
+        document.getElementById('descriptionInfo').textContent = descriptions[movieIndex] || 'No description available.';
+        document.getElementById('authorInfo').textContent = authors[movieIndex] || 'Unknown';
+        document.getElementById('genreInfo').textContent = genres[movieIndex] || '-';
     </script>
 </body>
 </html>
