@@ -12,8 +12,8 @@ services:
 
   models:
     build:
-      context: ./netnet/src/models
-      dockerfile: ops/Dockerfile
+      context: ./netnet
+      dockerfile: netnet/src/models/Dockerfile
     volumes:
       - ./netnet/src/models:/app
     working_dir: /app
@@ -30,8 +30,8 @@ services:
 
   routes:
     build:
-      context: ./netnet/src/routes
-      dockerfile: ops/Dockerfile
+      context: ./netnet
+      dockerfile: netnet/src/routes/Dockerfile
     volumes:
       - ./netnet/src/routes:/app
     working_dir: /app
@@ -48,8 +48,8 @@ services:
 
   front:
     build:
-      context: ./netnet/src/front
-      dockerfile: ops/Dockerfile
+      context: ./netnet
+      dockerfile: netnet/src/front/Dockerfile
     volumes:
       - ./netnet/src/front:/app
     working_dir: /app
@@ -59,13 +59,15 @@ services:
       timeout: 5s
       retries: 5
 
-  nginx:
-    image: nginx:alpine
-    container_name: nginx
+  caddy:
+    image: caddy:latest
+    container_name: caddy
     ports:
       - "8080:80"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
       models:
         condition: service_healthy
@@ -76,3 +78,5 @@ services:
 
 volumes:
   mongodb-data:
+  caddy_data:
+  caddy_config:

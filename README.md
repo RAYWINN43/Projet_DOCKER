@@ -1,4 +1,4 @@
-![Node + Docker CI](https://github.com//RAYWINN43/Projet_DOCKER/actions/workflows/node-ci.yml/badge.svg)
+![Node CI](https://github.com//RAYWINN43/Projet_DOCKER/actions/workflows/node-ci.yml/badge.svg)
 
 # Site bande annonce film
 
