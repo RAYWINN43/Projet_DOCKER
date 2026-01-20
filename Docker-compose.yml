@@ -1,0 +1,82 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    volumes:
+      - mongodb-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  models:
+    build:
+      context: ./netnet
+      dockerfile: netnet/src/models/Dockerfile
+    volumes:
+      - ./netnet/src/models:/app
+    working_dir: /app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  routes:
+    build:
+      context: ./netnet
+      dockerfile: netnet/src/routes/Dockerfile
+    volumes:
+      - ./netnet/src/routes:/app
+    working_dir: /app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      MONGO_URI: mongodb://mongo:27017/routes
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  front:
+    build:
+      context: ./netnet
+      dockerfile: netnet/src/front/Dockerfile
+    volumes:
+      - ./netnet/src/front:/app
+    working_dir: /app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    ports:
+      - "8080:80"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      models:
+        condition: service_healthy
+      routes:
+        condition: service_healthy
+      front:
+        condition: service_started
+
+volumes:
+  mongodb-data:
+  caddy_data:
+  caddy_config:

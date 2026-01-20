@@ -75,8 +75,8 @@ Pour lancer le projet localement :
 
 * **Outils utilisés :** (Ex: ChatGPT 4, GitHub Copilot)
 * **Usage :**
-    * *Génération de code :* (Ex: "Nous avons utilisé Copilot pour générer le boilerplate du Docker Compose")
-    * *Débuggage :* (Ex: "ChatGPT nous a aidé à comprendre l'erreur 502 Bad Gateway")
+    * *aide BDD:* nous a donnée des commande CURL pour verrifier le bon fonctionnement de la BDD 
+    * *GIT :* aide avec les commande GIT (pour travailler a plusieur + 2,3 bug branch)
     * *Documentation :* (Ex: "Nous avons reformulé l'intro avec l'IA")
 * **Apprentissage :** (Ce que l'IA a fait vs ce que vous avez compris).
 
