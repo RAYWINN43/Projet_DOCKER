@@ -1,0 +1,56 @@
+name: Node + Docker CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1️⃣ Récupérer le repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2️⃣ Installer Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # 3️⃣ Installer les dépendances backend
+      - name: Install backend dependencies
+        working-directory: ./backend
+        run: npm ci
+
+      # 4️⃣ Lint (optionnel mais recommandé)
+      - name: Run lint (if exists)
+        working-directory: ./backend
+        run: |
+          if npm run | grep -q lint; then
+            npm run lint
+          else
+            echo "No lint script, skipping"
+          fi
+
+      # 5️⃣ Tests backend (si présents)
+      - name: Run tests (if exists)
+        working-directory: ./backend
+        run: |
+          if npm run | grep -q test; then
+            npm test
+          else
+            echo "No tests, skipping"
+          fi
+
+      # 6️⃣ Build Docker images (checkpoint CRITIQUE)
+      - name: Build Docker images
+        run: docker compose build
+
+      # 7️⃣ Vérification finale
+      - name: CI checkpoint
+        run: echo "✅ CI passed — Node & Docker build OK"
