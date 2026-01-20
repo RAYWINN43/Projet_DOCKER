@@ -1,4 +1,4 @@
-name: Node + Docker CI
+name: Node CI
 
 on:
   push:
@@ -46,4 +46,4 @@ jobs:
       #   run: docker compose build
 
       - name: CI checkpoint
-        run: echo "CI passed — Node & Docker build OK"
+        run: echo "CI passed — Node build OK"
