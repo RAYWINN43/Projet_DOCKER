@@ -1,4 +1,4 @@
-# Titre du Projet (ex: My Super DevOps Stack)
+# Site bande annonce film
 
 > **⚠️ MEMBRES DU GROUPE :**
 > - **BLAIN Antoine**
