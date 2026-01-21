@@ -1,82 +1,99 @@
 services:
   mongo:
-    image: mongo
+    image: mongo:7
     container_name: mongodb
     volumes:
       - mongodb-data:/data/db
+    ports:
+    - "27017:27017"
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - internal
 
-  models:
+  back:
     build:
       context: ./netnet
-      dockerfile: netnet/src/models/Dockerfile
-    volumes:
-      - ./netnet/src/models:/app
-    working_dir: /app
+      dockerfile: src/back/Dockerfile
+    container_name: back
+    environment:
+      MONGO_URI: mongodb://localhost:27017/netflixlike
+      PORT: 3000
     depends_on:
       mongo:
         condition: service_healthy
-    environment:
-      MONGO_URI: mongodb://mongo:27017/models
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health >/dev/null 2>&1 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  routes:
-    build:
-      context: ./netnet
-      dockerfile: netnet/src/routes/Dockerfile
-    volumes:
-      - ./netnet/src/routes:/app
-    working_dir: /app
-    depends_on:
-      mongo:
-        condition: service_healthy
-    environment:
-      MONGO_URI: mongodb://mongo:27017/routes
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    networks:
+      - internal
 
   front:
     build:
-      context: ./netnet
-      dockerfile: netnet/src/front/Dockerfile
-    volumes:
-      - ./netnet/src/front:/app
-    working_dir: /app
+      context: ./netnet/src/front
+      dockerfile: Dockerfile
+    container_name: front
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - internal
 
   caddy:
-    image: caddy:latest
+    image: caddy:2.10
     container_name: caddy
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
+    restart: unless-stopped
     depends_on:
-      models:
-        condition: service_healthy
-      routes:
+      back:
         condition: service_healthy
       front:
-        condition: service_started
+        condition: service_healthy
+    networks:
+      - internal
+      - public
+
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: projet-docker
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_USERSPACE: "false"
+    volumes:
+      - tailscale_state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: unless-stopped
+    networks:
+      - public
 
 volumes:
   mongodb-data:
   caddy_data:
   caddy_config:
+  tailscale_state:
+
+networks:
+  internal:
+    name: internal
+  public:
+    name: public
+    external: true

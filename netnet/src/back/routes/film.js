@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Film = require("../models/film");
 
-// --- Helpers ---
+
 function isValidHttpUrl(str) {
   if (typeof str !== "string") return false;
   try {
@@ -13,7 +13,7 @@ function isValidHttpUrl(str) {
   }
 }
 
-// Tolérant : accepte youtu.be/xxxx, youtube.com/watch?v=xxxx, etc.
+// Tolérant : accepte youtu.be/xxxx, youtube.com/watch?v=xxxx
 function isLikelyYouTubeUrl(str) {
   if (!isValidHttpUrl(str)) return false;
   try {
