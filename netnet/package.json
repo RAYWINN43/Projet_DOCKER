@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/RAYWINN43/Projet_DOCKER#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "mangodb": "^1.0.0",
