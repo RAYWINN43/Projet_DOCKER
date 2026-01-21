@@ -1,11 +1,7 @@
-front.localhost {
-  reverse_proxy front:3000
+http://front.localhost {
+  reverse_proxy front:3001
 }
 
-models.localhost {
-  reverse_proxy models:3000
-}
-
-routes.localhost {
-  reverse_proxy routes:3000
+http://api.localhost {
+  reverse_proxy back:3000
 }

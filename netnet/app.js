@@ -1,4 +1,4 @@
-require("dotenv").config(); // ⬅️ TOUJOURS en premier
+require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -31,3 +31,6 @@ mongoose
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API up on :${PORT}`));
+
+app.get("/health", (req, res) => res.json({ ok: true }));
+
