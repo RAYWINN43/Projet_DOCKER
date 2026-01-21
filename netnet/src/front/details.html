@@ -26,7 +26,7 @@
                 <p><span id="detailName">image1.png</span></p>
                 
                 <div class="detail-field">
-                    <label>Published At</label>
+                    <label>Date de publication</label>
                     <p id="publishedAtInfo">-</p>
                 </div>
                 
@@ -45,10 +45,11 @@
     <footer>
     </footer>
     <script>
-        // Get film ID from URL
+        // Récupération de l'ID du film
         const params = new URLSearchParams(window.location.search);
         const filmId = params.get('id');
 
+        // Fonction async pour modifier les données avec celles récupérées dans la BDD
         async function loadFilmDetails() {
             if (!filmId) {
                 console.error('No film ID provided');
@@ -62,7 +63,7 @@
                 }
                 const film = await response.json();
                 
-                // Update the page with film details
+                // Mise à jour de la partie html
                 document.getElementById('detailMovie').src = film.thumbnailUrl;
                 document.getElementById('detailMovie').alt = film.title;
                 document.getElementById('detailTitle').textContent = film.title;
@@ -75,7 +76,7 @@
             }
         }
         
-        // Load film details when page is ready
+        // Chargement de la fonction async
         document.addEventListener('DOMContentLoaded', loadFilmDetails);
     </script>
 </body>
