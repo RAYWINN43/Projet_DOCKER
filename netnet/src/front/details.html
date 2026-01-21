@@ -7,16 +7,9 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <a href="home.html" class="top-link"><h1>Netnet</h1></a>
-    </header>
-    <nav>
-        <a href="home.html">Alpha</a>
-        <a href="#about">Bêta</a>
-        <a href="#contact">Gamma</a>
-    </nav>
+    <div id="header-container"></div>
     <main>
-        <a href="home.html" class="back-link">← Back to Home</a>
+        <a href="home.html" class="back-link">← Retour à la page d'accueil</a>
         <div class="details-container">
             <div class="details-movie">
                 <img id="detailMovie" src="image1.png" alt="Movie details">
@@ -45,6 +38,17 @@
     <footer>
     </footer>
     <script>
+        // Load header from separate file
+        async function loadHeader() {
+            try {
+                const response = await fetch('/header.html');
+                const headerHTML = await response.text();
+                document.getElementById('header-container').innerHTML = headerHTML;
+            } catch (error) {
+                console.error('Error loading header:', error);
+            }
+        }
+        
         // Récupération de l'ID du film
         const params = new URLSearchParams(window.location.search);
         const filmId = params.get('id');
@@ -77,7 +81,10 @@
         }
         
         // Chargement de la fonction async
-        document.addEventListener('DOMContentLoaded', loadFilmDetails);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFilmDetails();
+        });
     </script>
 </body>
 </html>
