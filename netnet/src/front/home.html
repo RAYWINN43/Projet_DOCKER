@@ -40,20 +40,40 @@
     <footer>
     </footer>
     <script>
-        const ribbonItems = document.querySelectorAll('.ribbon-item');
-        const body = document.body;
-        const originalBg = body.style.backgroundImage;
-        let currentItem = null;
-
-        ribbonItems.forEach(item => {
-            const img = item.querySelector('img');
-            const imgSrc = img.src;
-
-            item.addEventListener('mouseenter', () => {
-                currentItem = item;
-                body.style.backgroundImage = `url('${imgSrc}')`;
-            });
-        });
+        // Fetch films from API and populate the ribbon
+        async function loadFilms() {
+            try {
+                const response = await fetch('/api/films');
+                const data = await response.json();
+                const films = data.films || [];
+                
+                const ribbon = document.querySelector('.ribbon');
+                ribbon.innerHTML = ''; // Clear existing items
+                
+                films.forEach((film, index) => {
+                    const link = document.createElement('a');
+                    link.href = `details.html?id=${film._id}`;
+                    link.className = 'ribbon-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = film.thumbnailUrl;
+                    img.alt = film.title;
+                    
+                    link.appendChild(img);
+                    ribbon.appendChild(link);
+                    
+                    // Add hover effect
+                    link.addEventListener('mouseenter', () => {
+                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading films:', error);
+            }
+        }
+        
+        // Load films when page is ready
+        document.addEventListener('DOMContentLoaded', loadFilms);
     </script>
 </body>
 </html>
