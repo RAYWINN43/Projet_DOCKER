@@ -12,48 +12,75 @@
     <header>
         <a href="home.html" class="top-link"><h1>Netnet</h1></a>
     </header>
+    <!-- Barre de navigation -->
     <nav>
-        <a href="#home">Alpha</a>
-        <a href="#about">Bêta</a>
-        <a href="#contact">Gamma</a>
+        <a href="home.html">Films</a>
+        <a href="home.html">Séries</a>
+        <a href="home.html">Autres</a>
     </nav>
     <main>
         
     </main>
+    <!-- Ruban de base avec les placeholders -->
     <div class="ribbon">
         <a href="details.html?movie=1" class="ribbon-item">
-            <img src="image1.png", alt="Movie 1">
+            <img src="", alt="Movie 1">
         </a>
         <a href="details.html?movie=2" class="ribbon-item">
-            <img src="image2.png" alt="Movie 2">
+            <img src="" alt="Movie 2">
         </a>
         <a href="details.html?movie=3" class="ribbon-item">
-            <img src="image3.png" alt="Movie 3">
+            <img src="" alt="Movie 3">
         </a>
         <a href="details.html?movie=4" class="ribbon-item">
-            <img src="image4.png" alt="Movie 4">
+            <img src="" alt="Movie 4">
         </a>
         <a href="details.html?movie=5" class="ribbon-item">
-            <img src="image5.png" alt="Movie 5">
+            <img src="" alt="Movie 5">
         </a>
     </div>
     <footer>
     </footer>
     <script>
-        const ribbonItems = document.querySelectorAll('.ribbon-item');
-        const body = document.body;
-        const originalBg = body.style.backgroundImage;
-        let currentItem = null;
-
-        ribbonItems.forEach(item => {
-            const img = item.querySelector('img');
-            const imgSrc = img.src;
-
-            item.addEventListener('mouseenter', () => {
-                currentItem = item;
-                body.style.backgroundImage = `url('${imgSrc}')`;
-            });
-        });
+        // Fonction async pour charger les films dans la BDD
+        async function loadFilms() {
+            try {
+                const response = await fetch('/api/films');
+                const data = await response.json();
+                const films = data.films || [];
+                
+                const ribbon = document.querySelector('.ribbon');
+                ribbon.innerHTML = '';
+                
+                films.forEach((film, index) => {
+                    const link = document.createElement('a');
+                    link.href = `details.html?id=${film._id}`;
+                    link.className = 'ribbon-item';
+                    
+                    const img = document.createElement('img');
+                    img.src = film.thumbnailUrl;
+                    img.alt = film.title;
+                    
+                    link.appendChild(img);
+                    ribbon.appendChild(link);
+                    
+                    // Fond d'écran initial
+                    if (index === 0) {
+                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                    }
+                    
+                    // Modification du fond d'écran avec un hover
+                    link.addEventListener('mouseenter', () => {
+                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                    });
+                });
+            } catch (error) {
+                console.error('Error loading films:', error);
+            }
+        }
+        
+        // Chargement de la fonction async
+        document.addEventListener('DOMContentLoaded', loadFilms);
     </script>
 </body>
 </html>
