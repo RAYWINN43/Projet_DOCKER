@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Picture Details - Netnet</title>
+    <title id="movieTitle">Movie - Netnet</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -25,7 +25,7 @@
                 
                 <div class="detail-field">
                     <label>Synopsis</label>
-                    <p id="synopsisInfo">No synopsis available.</p>
+                    <p id="synopsisInfo">Aucun synopsis disponible.</p>
                 </div>
                 
                 <!--<div class="detail-field">
@@ -69,6 +69,7 @@
                 
                 // Mise à jour de la partie html
                 document.getElementById('detailMovie').src = film.thumbnailUrl;
+                document.getElementById('movieTitle').textContent = film.title + ' - Netnet';
                 document.getElementById('detailMovie').alt = film.title;
                 document.getElementById('detailTitle').textContent = film.title;
                 document.getElementById('detailName').textContent = film.title;
