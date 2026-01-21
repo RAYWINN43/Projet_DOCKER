@@ -29,8 +29,6 @@ Dans ce projet, nous allons créer un site très basique dédié aux bandes-anno
 ## 2. Architecture Technique
 
 ### Schéma d'infrastructure
-*Ce schéma est généré dynamiquement à partir du fichier `architecture.puml` présent dans ce dépôt.*
-
 ![Architecture du Projet](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/RAYWINN43/Projet_DOCKER/main/architecture.puml)
 
 
@@ -66,7 +64,7 @@ Pour lancer le projet localement :
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
-Evan partie Back 
+Evan partie Back
 Antoine partie DOCK + README
 Corentin partie Front
 
@@ -75,8 +73,12 @@ Corentin partie Front
 * **Usage :**
     * *aide BDD:* nous a donnée des commande CURL pour verrifier le bon fonctionnement de la BDD 
     * *GIT :* aide avec les commande GIT (pour travailler a plusieur + 2,3 bug branch)
-    * *Front :*aide pour du CSS (vibe)
+    * *Front :* aide pour du CSS (vibe)
+    * *Debug:* aide pour debug 
 
 ## 5. Difficultés rencontrées & Solutions
 * *GITHUB :* des merge qui ne voulez pas se faire car les branche etait distant
 * *Solution :* commande git pour regler ce probleme 
+
+* *CADDY :* l'affichage marche via le port mais pas via caddy front.localhost
+* *Solution :* changement dans dockercompose + caddy file 
