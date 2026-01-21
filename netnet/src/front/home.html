@@ -20,27 +20,28 @@
     <main>
         
     </main>
+    <!-- Ruban de base avec les placeholders -->
     <div class="ribbon">
         <a href="details.html?movie=1" class="ribbon-item">
-            <img src="image1.png", alt="Movie 1">
+            <img src="", alt="Movie 1">
         </a>
         <a href="details.html?movie=2" class="ribbon-item">
-            <img src="image2.png" alt="Movie 2">
+            <img src="" alt="Movie 2">
         </a>
         <a href="details.html?movie=3" class="ribbon-item">
-            <img src="image3.png" alt="Movie 3">
+            <img src="" alt="Movie 3">
         </a>
         <a href="details.html?movie=4" class="ribbon-item">
-            <img src="image4.png" alt="Movie 4">
+            <img src="" alt="Movie 4">
         </a>
         <a href="details.html?movie=5" class="ribbon-item">
-            <img src="image5.png" alt="Movie 5">
+            <img src="" alt="Movie 5">
         </a>
     </div>
     <footer>
     </footer>
     <script>
-        // Fetch films from API and populate the ribbon
+        // Fonction async pour charger les films dans la BDD
         async function loadFilms() {
             try {
                 const response = await fetch('/api/films');
@@ -48,7 +49,7 @@
                 const films = data.films || [];
                 
                 const ribbon = document.querySelector('.ribbon');
-                ribbon.innerHTML = ''; // Clear existing items
+                ribbon.innerHTML = '';
                 
                 films.forEach((film, index) => {
                     const link = document.createElement('a');
@@ -62,7 +63,12 @@
                     link.appendChild(img);
                     ribbon.appendChild(link);
                     
-                    // Add hover effect
+                    // Fond d'écran initial
+                    if (index === 0) {
+                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                    }
+                    
+                    // Modification du fond d'écran avec un hover
                     link.addEventListener('mouseenter', () => {
                         document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
                     });
@@ -72,7 +78,7 @@
             }
         }
         
-        // Load films when page is ready
+        // Chargement de la fonction async
         document.addEventListener('DOMContentLoaded', loadFilms);
     </script>
 </body>

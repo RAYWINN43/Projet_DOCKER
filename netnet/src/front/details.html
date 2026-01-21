@@ -56,7 +56,7 @@
             }
             
             try {
-                const response = await fetch(`http://localhost:3000/api/films/${filmId}`);
+                const response = await fetch(`/api/films/${filmId}`);
                 if (!response.ok) {
                     throw new Error('Film not found');
                 }
