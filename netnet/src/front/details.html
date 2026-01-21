@@ -26,18 +26,18 @@
                 <p><span id="detailName">image1.png</span></p>
                 
                 <div class="detail-field">
-                    <label>Author</label>
-                    <p id="authorInfo">Unknown</p>
+                    <label>Date de publication</label>
+                    <p id="publishedAtInfo">-</p>
                 </div>
                 
                 <div class="detail-field">
-                    <label>Genre</label>
-                    <p id="genreInfo">-</p>
+                    <label>Synopsis</label>
+                    <p id="synopsisInfo">No synopsis available.</p>
                 </div>
                 
-                <div class="detail-field">
-                    <label>Description</label>
-                    <p id="descriptionInfo">No description available.</p>
+                <!--<div class="detail-field">
+                    <label>Trailer</label>
+                    <p id="trailerInfo">-</p>-->
                 </div>
             </div>
         </div>
@@ -45,45 +45,39 @@
     <footer>
     </footer>
     <script>
-        // Get image parameter from URL
+        // Récupération de l'ID du film
         const params = new URLSearchParams(window.location.search);
-        const movieIndex = params.get('movie') || '1';
-        const movieName = `Movie ${movieIndex}`;
+        const filmId = params.get('id');
 
-        // Update the page with details
-        document.getElementById('detailMovie').src = `image${movieIndex}.png`;
-        document.getElementById('detailMovie').alt = `${movieName}`;
-        document.getElementById('detailName').textContent = movieName;
-
-        // Sample descriptions for each image
-        const descriptions = {
-            '1': 'An epic tale of courage and survival.',
-            '2': 'A thrilling action-packed adventure.',
-            '3': 'The legendary story of ancient warfare.',
-            '4': 'A superhero team comes together.',
-            '5': 'A sci-fi masterpiece beyond imagination.'
-        };
-
-        const authors = {
-            '1': 'Director One',
-            '2': 'Director Two',
-            '3': 'Director Three',
-            '4': 'Director Four',
-            '5': 'Director Five'
-        };
-
-        const genres = {
-            '1': 'Drama',
-            '2': 'Action',
-            '3': 'War',
-            '4': 'Superhero',
-            '5': 'Science Fiction'
-        };
-
-        document.getElementById('detailTitle').textContent = `${descriptions[movieIndex] ? descriptions[movieIndex].split(' ')[0] : 'Movie'} ${movieIndex}`;
-        document.getElementById('descriptionInfo').textContent = descriptions[movieIndex] || 'No description available.';
-        document.getElementById('authorInfo').textContent = authors[movieIndex] || 'Unknown';
-        document.getElementById('genreInfo').textContent = genres[movieIndex] || '-';
+        // Fonction async pour modifier les données avec celles récupérées dans la BDD
+        async function loadFilmDetails() {
+            if (!filmId) {
+                console.error('No film ID provided');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/films/${filmId}`);
+                if (!response.ok) {
+                    throw new Error('Film not found');
+                }
+                const film = await response.json();
+                
+                // Mise à jour de la partie html
+                document.getElementById('detailMovie').src = film.thumbnailUrl;
+                document.getElementById('detailMovie').alt = film.title;
+                document.getElementById('detailTitle').textContent = film.title;
+                document.getElementById('detailName').textContent = film.title;
+                document.getElementById('synopsisInfo').textContent = film.synopsis || 'No synopsis available.';
+                document.getElementById('publishedAtInfo').textContent = new Date(film.publishedAt).toLocaleDateString() || '-';
+            } catch (error) {
+                console.error('Error loading film details:', error);
+                document.getElementById('detailTitle').textContent = 'Film not found';
+            }
+        }
+        
+        // Chargement de la fonction async
+        document.addEventListener('DOMContentLoaded', loadFilmDetails);
     </script>
 </body>
 </html>

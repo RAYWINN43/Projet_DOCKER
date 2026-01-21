@@ -20,7 +20,7 @@ services:
       dockerfile: src/back/Dockerfile
     container_name: back
     environment:
-      MONGO_URI: mongodb://localhost:27017/netflixlike
+      MONGO_URI: mongodb://mongo:27017/netflixlike
       PORT: 3000
     depends_on:
       mongo:
