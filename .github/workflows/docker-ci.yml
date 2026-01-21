@@ -2,17 +2,16 @@ name: Docker CI
 
 on:
   push:
-    branches: ["main", "develop", "Evan_3"]
+    branches: ["main", "develop", "staging"]
   pull_request:
-    branches: ["main", "develop", "Evan_3"]
+    branches: ["main", "develop", "staging"]
 
 jobs:
   docker:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -20,31 +19,25 @@ jobs:
       - name: Docker Compose Build
         run: docker compose -f Docker-compose.yml build
 
+      - name: Create external network (public)
+        run: docker network create public || true
+
       - name: Start stack
         env:
-          # évite le warning "TS_AUTHKEY not set" en CI
           TS_AUTHKEY: "tskey-ci-dummy"
         run: docker compose -f Docker-compose.yml up -d
 
-      - name: Show containers
-        run: docker compose -f Docker-compose.yml ps
-
-      # Attendre un peu que healthchecks passent
-      - name: Wait for services
+      - name: Wait a bit
         run: |
           sleep 25
           docker compose -f Docker-compose.yml ps
 
-      # Smoke test API via Caddy (port 80 publié)
-      - name: Smoke test API
-        run: |
-          curl -f http://localhost/ || true
-          curl -f http://localhost/api/films
+      - name: Smoke test API via Caddy
+        run: curl -f http://localhost/api/films
 
       - name: Logs on failure
         if: failure()
-        run: |
-          docker compose -f Docker-compose.yml logs --no-color --tail 200
+        run: docker compose -f Docker-compose.yml logs --no-color --tail 200
 
       - name: Cleanup
         if: always()
