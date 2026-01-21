@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: netnet/package-lock.json
 
       - name: Install backend dependencies
         working-directory: ./netnet
@@ -27,7 +28,7 @@ jobs:
       - name: Run lint (if exists)
         working-directory: ./netnet
         run: |
-          if npm run | grep -q lint; then
+          if npm run | grep -qE '^  lint'; then
             npm run lint
           else
             echo "No lint script, skipping"
@@ -36,14 +37,11 @@ jobs:
       - name: Run tests (if exists)
         working-directory: ./netnet
         run: |
-          if npm run | grep -q test; then
+          if npm run | grep -qE '^  test'; then
             npm test
           else
             echo "No tests, skipping"
           fi
-
-      # - name: Build Docker images
-      #   run: docker compose build
 
       - name: CI checkpoint
         run: echo "CI passed — Node build OK"
