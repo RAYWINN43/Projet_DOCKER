@@ -2,32 +2,50 @@ name: Docker CI
 
 on:
   push:
-    branches: ["main", "staging"]
+    branches: ["main", "develop", "Evan_3"]
   pull_request:
-    branches: ["main", "staging"]
+    branches: ["main", "develop", "Evan_3"]
 
 jobs:
   docker:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Build images
-        run: docker compose build
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Start services
-        run: docker compose up -d
+      - name: Docker Compose Build
+        run: docker compose -f Docker-compose.yml build
 
-      - name: Wait for healthchecks
+      - name: Start stack
+        env:
+          # évite le warning "TS_AUTHKEY not set" en CI
+          TS_AUTHKEY: "tskey-ci-dummy"
+        run: docker compose -f Docker-compose.yml up -d
+
+      - name: Show containers
+        run: docker compose -f Docker-compose.yml ps
+
+      # Attendre un peu que healthchecks passent
+      - name: Wait for services
         run: |
-          docker compose ps
-          sleep 20
-          docker compose ps
+          sleep 25
+          docker compose -f Docker-compose.yml ps
 
+      # Smoke test API via Caddy (port 80 publié)
       - name: Smoke test API
-        run: curl -f http://localhost:8080/api/films
+        run: |
+          curl -f http://localhost/ || true
+          curl -f http://localhost/api/films
+
+      - name: Logs on failure
+        if: failure()
+        run: |
+          docker compose -f Docker-compose.yml logs --no-color --tail 200
 
       - name: Cleanup
         if: always()
-        run: docker compose down -v
+        run: docker compose -f Docker-compose.yml down -v
