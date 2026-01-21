@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   mongo:
     image: mongo
@@ -9,19 +11,50 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - internal
+
+  back:
+    build:
+      context: ./netnet
+      dockerfile: src/back/Dockerfile
+    container_name: back
+    volumes:
+      - ./netnet/src/back:/app
+    working_dir: /app
+    environment:
+      MONGO_URI: mongodb://mongo:27017/app
+    depends_on:
+      mongo:
+        condition: service_healthy
+    expose:
+      - "3000"
+    # Si tu n'as pas /health, supprime ou adapte
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
 
   front:
     build:
-      context: ./netnet
-      dockerfile: src/front/Dockerfile
+      context: ./netnet/src/front
+      dockerfile: Dockerfile
+    container_name: front
     volumes:
       - ./netnet/src/front:/app
     working_dir: /app
+    expose:
+      - "3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - internal
 
   caddy:
     image: caddy:2.10
@@ -39,10 +72,29 @@ services:
       - internal
       - public
 
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: projet-docker
+    environment:
+      TS_AUTHKEY: ${TS_AUTHKEY}
+      TS_STATE_DIR: /var/lib/tailscale
+      TS_USERSPACE: "false"
+    volumes:
+      - tailscale_state:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    restart: unless-stopped
+    networks:
+      - public
+
 volumes:
   mongodb-data:
   caddy_data:
   caddy_config:
+  tailscale_state:
 
 networks:
   internal:
