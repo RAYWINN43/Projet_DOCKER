@@ -1,11 +1,11 @@
-version: "3.9"
-
 services:
   mongo:
-    image: mongo
+    image: mongo:7
     container_name: mongodb
     volumes:
       - mongodb-data:/data/db
+    ports:
+    - "27017:27017"
     healthcheck:
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
@@ -19,19 +19,14 @@ services:
       context: ./netnet
       dockerfile: src/back/Dockerfile
     container_name: back
-    volumes:
-      - ./netnet/src/back:/app
-    working_dir: /app
     environment:
-      MONGO_URI: mongodb://mongo:27017/app
+      MONGO_URI: mongodb://localhost:27017/netflixlike
+      PORT: 3000
     depends_on:
       mongo:
         condition: service_healthy
-    expose:
-      - "3000"
-    # Si tu n'as pas /health, supprime ou adapte
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health >/dev/null 2>&1 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -43,13 +38,8 @@ services:
       context: ./netnet/src/front
       dockerfile: Dockerfile
     container_name: front
-    volumes:
-      - ./netnet/src/front:/app
-    working_dir: /app
-    expose:
-      - "3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -68,6 +58,11 @@ services:
       - caddy_data:/data
       - caddy_config:/config
     restart: unless-stopped
+    depends_on:
+      back:
+        condition: service_healthy
+      front:
+        condition: service_healthy
     networks:
       - internal
       - public

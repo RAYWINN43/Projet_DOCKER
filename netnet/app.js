@@ -1,8 +1,8 @@
-require("dotenv").config(); // ⬅️ TOUJOURS en premier
+require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
-const filmRoutes = require("./src/routes/film");
+const filmRoutes = require("./src/back/routes/film");
 
 const app = express();
 app.use(express.json());

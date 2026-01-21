@@ -1,5 +1,6 @@
 FROM nginx:alpine
 
-COPY front/nginx.conf /etc/nginx/conf.d/default.conf
+RUN apk add --no-cache wget
 
-COPY netnet/src/front /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY . /usr/share/nginx/html
