@@ -16,13 +16,12 @@ services:
       - internal
 
   back:
-    build:
-      context: ./netnet
-      dockerfile: src/back/Dockerfile
+    image: snowlly/projet_docker-back:latest
     container_name: back
     environment:
       MONGO_URI: mongodb://mongo:27017/netflixlike
       PORT: 3000
+      NODE_ENV: production
     depends_on:
       mongo:
         condition: service_healthy
@@ -36,9 +35,7 @@ services:
       - internal
 
   front:
-    build:
-      context: ./netnet/src/front
-      dockerfile: Dockerfile
+    image: snowlly/projet_docker-front:latest
     container_name: front
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1"]
@@ -54,6 +51,7 @@ services:
     container_name: caddy
     ports:
       - "80:80"
+      # en local, 443 peut déjà être pris -> si ça bloque, commente ces 2 lignes
       - "443:443"
       - "443:443/udp"
     volumes:
