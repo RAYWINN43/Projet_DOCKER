@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"test passed :)\"",
-    "start": "node app.js"
+    "start": "node app.js",
+    "seed": "node src/back/seed.js",
+    "clear": "node src/back/clear.js"
   },
   "repository": {
     "type": "git",

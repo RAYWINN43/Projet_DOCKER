@@ -51,19 +51,23 @@ footer {
     margin-top: 2rem;
 }
 .ribbon {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    display: flex;
     gap: 1rem;
     padding: 1rem;
-    width: 100%;
-    margin: 0 auto;
+    width: auto;
+    margin-left: 1rem;
+    overflow-x: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
 }
 .ribbon-item {
     text-decoration: none;
     transition: transform 0.2s;
+    flex: 0 0 18%; 
+    scroll-snap-align: start;
 }
 .ribbon-item:hover {
-    transform: scale(1.1);
+    transform: scale(1.03);
 }
 .ribbon-item img {
     width: 100%;
@@ -71,6 +75,17 @@ footer {
     object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive fallbacks: fewer items visible on smaller screens */
+@media (max-width: 1200px) {
+    .ribbon-item { flex: 0 0 25%; }
+}
+@media (max-width: 900px) {
+    .ribbon-item { flex: 0 0 33.3333%; }
+}
+@media (max-width: 600px) {
+    .ribbon-item { flex: 0 0 50%; }
 }
 
 .details-container {
@@ -216,6 +231,49 @@ footer {
 #updateForm button[type="button"]:hover {
     background-color: #666;
 }
+.trailer-btn {
+    background-color: #333;
+    color: white;
+    padding: 1rem 5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 1rem auto;
+    transition: background-color 0.2s;
+    display: block;
+}
+.trailer-btn:hover {
+    background-color: #555;
+}
+.trailer-btn[type="button"] {
+    background-color: #888;
+}
+.trailer-btn[type="button"]:hover {
+    background-color: #666;
+}
+.add-movie-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+.add-movie-btn {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+.add-movie-btn:hover {
+    background-color: #555;
+}
 @media (max-width: 768px) {
     .details-container {
         grid-template-columns: 1fr;
@@ -224,4 +282,10 @@ footer {
     .details-info {
         padding: 2rem;
     }
+}
+
+.delete-btn {
+    color:#c00;
+    margin-left: 1rem;
+    padding: .2rem;
 }
