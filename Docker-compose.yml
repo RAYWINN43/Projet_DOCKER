@@ -5,16 +5,19 @@ services:
     volumes:
       - mongodb-data:/data/db
     ports:
-    - "27017:27017"
+      - 27017:27017
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test:
+        - CMD
+        - mongosh
+        - --eval
+        - db.adminCommand('ping')
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - internal
-
   back:
     image: snowlly/projet_docker-back:latest
     container_name: back
@@ -27,35 +30,36 @@ services:
         condition: service_healthy
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health >/dev/null 2>&1 || exit 1"]
+      test:
+        - CMD-SHELL
+        - wget -qO- http://localhost:3000/health >/dev/null 2>&1 || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - internal
-
   front:
     image: snowlly/projet_docker-front:latest
     container_name: front
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1"]
+      test:
+        - CMD-SHELL
+        - wget -qO- http://localhost:3001/ >/dev/null 2>&1 || exit 1
       interval: 10s
       timeout: 5s
       retries: 5
     restart: unless-stopped
     networks:
       - internal
-
   caddy:
     image: caddy:2.10
     container_name: caddy
     ports:
-      - "80:80"
-      # en local, 443 peut déjà être pris -> si ça bloque, commente ces 2 lignes
-      - "443:443"
-      - "443:443/udp"
+      - 80:80
+      - 443:443
+      - 443:443/udp
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - /app/stacks/projet-docker/Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     restart: unless-stopped
@@ -67,7 +71,6 @@ services:
     networks:
       - internal
       - public
-
   tailscale:
     image: tailscale/tailscale:latest
     container_name: tailscale
@@ -85,16 +88,13 @@ services:
     restart: unless-stopped
     networks:
       - public
-
 volumes:
-  mongodb-data:
-  caddy_data:
-  caddy_config:
-  tailscale_state:
-
+  mongodb-data: null
+  caddy_data: null
+  caddy_config: null
+  tailscale_state: null
 networks:
   internal:
-    name: internal
+    name: internal_projet
   public:
-    name: public
-    external: true
+    name: public_projet

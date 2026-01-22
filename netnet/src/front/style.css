@@ -56,7 +56,7 @@ footer {
     padding: 1rem;
     width: auto;
     margin-left: 1rem;
-    overflow-x: hidden;
+    overflow-x: auto;
     scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
 }
