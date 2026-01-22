@@ -25,6 +25,7 @@ Dans ce projet, nous allons créer un site très basique dédié aux bandes-anno
 * mangoDB
 * discord 
 * GitHub et Git
+* Caddy 
 
 ## 2. Architecture Technique
 
