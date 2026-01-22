@@ -3,7 +3,7 @@ name: Docker CI (Build & Push to Docker Hub)
 on:
   push:
     branches: ["main", "staging", "Evan_3"]
-  pull:
+  pull_request:
     branches: ["main", "staging", "Evan_3"]
 
 jobs:
