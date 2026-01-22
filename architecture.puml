@@ -1,17 +1,32 @@
 @startuml
-title Architecture
+!theme toy
+title Architecture – Netnet 
+actor Client
 
-node "Client" {
-  component "Navigateur"
+cloud "Internet" as Internet
+
+node "Docker Host" {
+
+  package "Public Network" #LightBlue {
+    component "Caddy\n(public)" as Caddy
+    component "Tailscale\n(VPN)" as TS #Pink
+  }
+
+  package "Internal Network" #LightGreen {
+    component "Front-end" as Front
+    component "Back-end" as API
+    database "MongoDB" as DB
+  }
 }
 
-node "Docker" {
-  component "Front-end"
-  component "API Node.js"
-  component "Base de données MangoDB"
-}
+Client --> Internet
+Internet --> Caddy : HTTP
+Caddy --> Front : /home
+Caddy --> API 
 
-"Navigateur" --> "Front-end"
-"Front-end" --> "API Node.js"
-"API Node.js" --> "Base de données MangoDB"
+API --> DB
+
+Client --> TS : Accès privé (VPN)
+TS --> Caddy
+
 @enduml

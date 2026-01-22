@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update movie - Netnet</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <main>
+        <a href="home.html" class="back-link">← Retour à la page d'accueil</a>
+        <div class="update-container">
+            <h1 id="pageTitle">Mettre à jour un film</h1>
+            
+            <form id="updateForm">
+                <div class="form-group">
+                    <label for="title">Titre :</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="synopsis">Synopsis :</label>
+                    <textarea id="synopsis" name="synopsis" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="publishedAt">Date de publication :</label>
+                    <input type="date" id="publishedAt" name="publishedAt" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="thumbnailUrl">URL de la miniature :</label>
+                    <input type="url" id="thumbnailUrl" name="thumbnailUrl" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trailerUrl">URL du trailer :</label>
+                    <input type="url" id="trailerUrl" name="trailerUrl" required>
+                </div>
+                
+                <button type="submit">Mettre à jour un film</button>
+                <button type="button" onclick="goBack()">Annuler</button>
+            </form>
+            
+            <div id="message" style="margin-top: 20px;"></div>
+        </div>
+    </main>
+    
+    <footer>
+    </footer>
+    
+    <script>
+        // Récupération de l'ID du film
+        const params = new URLSearchParams(window.location.search);
+        const movieId = params.get('id');
+        
+        // Header
+        async function loadHeader() {
+            try {
+                const response = await fetch('/header.html');
+                const headerHTML = await response.text();
+                document.getElementById('header-container').innerHTML = headerHTML;
+            } catch (error) {
+                console.error('Error loading header:', error);
+            }
+        }
+        
+        // Fonction async pour charger les films dans la BDD
+        async function loadMovieData() {
+            if (!movieId) {
+                showMessage('No movie ID provided in URL', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/films/${movieId}`);
+                if (!response.ok) throw new Error('Movie not found');
+                const film = await response.json();
+                
+                document.getElementById('pageTitle').textContent = `Mettre à jour : ${film.title}`;
+                document.getElementById('title').value = film.title;
+                document.getElementById('synopsis').value = film.synopsis;
+                document.getElementById('publishedAt').value = film.publishedAt.split('T')[0];
+                document.getElementById('thumbnailUrl').value = film.thumbnailUrl;
+                document.getElementById('trailerUrl').value = film.trailerUrl;
+                
+            } catch (error) {
+                console.error('Error loading movie :', error);
+                showMessage('Error loading movie data : ' + error.message, 'error');
+                document.getElementById('updateForm').style.display = 'none';
+            }
+        }
+        
+        // Envoi de la requête
+        document.getElementById('updateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!movieId) {
+                showMessage('No movie ID provided', 'error');
+                return;
+            }
+            
+            const filmData = {
+                title: document.getElementById('title').value,
+                synopsis: document.getElementById('synopsis').value,
+                publishedAt: document.getElementById('publishedAt').value,
+                thumbnailUrl: document.getElementById('thumbnailUrl').value,
+                trailerUrl: document.getElementById('trailerUrl').value
+            };
+            
+            try {
+                const response = await fetch(`/api/films/${movieId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(filmData)
+                });
+                
+                if (!response.ok) throw new Error('Erreur lors de la mise à jour');
+                showMessage('Film mis à jour !', 'success');
+                setTimeout(() => window.location.href = 'home.html', 1500);
+            } catch (error) {
+                console.error('Erreur :', error);
+                showMessage('Erreur : ' + error.message, 'error');
+            }
+        });
+        
+        function goBack() {
+            window.location.href = 'details.html?id=' + movieId;
+        }
+        
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.color = type === 'success' ? 'green' : 'red';
+        }
+        
+        // Chargement de la fonction async
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadMovieData();
+        });
+    </script>
+</body>
+</html>
