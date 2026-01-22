@@ -283,3 +283,9 @@ footer {
         padding: 2rem;
     }
 }
+
+.delete-btn {
+    color:#c00;
+    margin-left: 1rem;
+    padding: .2rem;
+}

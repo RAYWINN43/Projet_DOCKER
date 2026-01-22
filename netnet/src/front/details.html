@@ -10,7 +10,7 @@
     <div id="header-container"></div>
     <main>
         <a href="home.html" class="back-link">← Retour à la page d'accueil</a>
-        <div class="details-container">
+        <div class="details-container" id="detailsContainer">
             <div class="details-movie">
                 <img id="detailMovie" src="image1.png" alt="Movie details">
             </div>
@@ -32,10 +32,13 @@
                     <button id="trailerInfo" class="trailer-btn" style="display: none;">Regarder le trailer</button>
                 </div>
             
+                <div id="message" style="margin-top: 20px;"></div>
                 
                 <div class="detail-field">
                     <a href="update.html?id=" id="updateLink" class="update-btn">Modifier ce film</a>
+                    <button type="delete" id="deleteLink" class="delete-btn">Supprimer ce film</button>
                 </div>
+            
             </div>
         </div>
     </main>
@@ -89,7 +92,37 @@
                 document.getElementById('detailTitle').textContent = 'Film not found';
             }
         }
+
+        // Bouton de suppression
+        document.getElementById('deleteLink').addEventListener('click', async (e) => {
+            e.preventDefault();
+            try {
+                let response;
+                const movieId = params.get('id');
+                if (movieId) {
+                    response = await fetch(`/api/films/${movieId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    if (!response.ok) throw new Error('Erreur lors de la suppression');
+                    showMessage('Film supprimé !', 'success');
+                    setTimeout(() => window.location.href = 'home.html', 1500);
+                }
+            } catch (error) {
+                console.error('Error deleting movie :', error);
+                showMessage('Error deleting movie : ' + error.message, 'error');
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.style.color = type === 'success' ? 'green' : 'red';
+        }
         
+
         // Chargement de la fonction async
         document.addEventListener('DOMContentLoaded', () => {
             loadHeader();

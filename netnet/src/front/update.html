@@ -109,7 +109,7 @@
             try {
                 let response;
                 if (movieId) {
-                    // Update existing movie with PUT
+                    // Requête PUT
                     response = await fetch(`/api/films/${movieId}`, {
                         method: 'PUT',
                         headers: {
@@ -120,7 +120,7 @@
                     if (!response.ok) throw new Error('Erreur lors de la mise à jour');
                     showMessage('Film mis à jour !', 'success');
                 } else {
-                    // Create new movie with POST
+                    // Requête POST
                     response = await fetch('/api/films', {
                         method: 'POST',
                         headers: {
