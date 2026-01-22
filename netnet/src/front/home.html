@@ -10,31 +10,20 @@
 </head>
 <body>
     <div id="header-container"></div>
+    <div class="add-movie-container">
+        <a href="update.html" class="add-movie-btn">+ Ajouter un film</a>
+    </div>
     <main>
         
     </main>
     <!-- Ruban de base avec les placeholders -->
-    <div class="ribbon">
-        <a href="details.html?movie=1" class="ribbon-item">
-            <img src="", alt="Movie 1">
-        </a>
-        <a href="details.html?movie=2" class="ribbon-item">
-            <img src="" alt="Movie 2">
-        </a>
-        <a href="details.html?movie=3" class="ribbon-item">
-            <img src="" alt="Movie 3">
-        </a>
-        <a href="details.html?movie=4" class="ribbon-item">
-            <img src="" alt="Movie 4">
-        </a>
-        <a href="details.html?movie=5" class="ribbon-item">
-            <img src="" alt="Movie 5">
-        </a>
-    </div>
+    <div class="ribbon"></div>
+    
     <footer>
     </footer>
+    
     <script>
-        // Load header from separate file
+        // Header
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
