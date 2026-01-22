@@ -3,4 +3,3 @@ node_modules
 minikube-darwin-arm64
 dockge/data/dockge.db*
 dockge/data/db-config.json
-dockge/data
