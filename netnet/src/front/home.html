@@ -9,15 +9,7 @@
     
 </head>
 <body>
-    <header>
-        <a href="home.html" class="top-link"><h1>Netnet</h1></a>
-    </header>
-    <!-- Barre de navigation -->
-    <nav>
-        <a href="home.html">Films</a>
-        <a href="home.html">Séries</a>
-        <a href="home.html">Autres</a>
-    </nav>
+    <div id="header-container"></div>
     <main>
         
     </main>
@@ -42,6 +34,17 @@
     <footer>
     </footer>
     <script>
+        // Load header from separate file
+        async function loadHeader() {
+            try {
+                const response = await fetch('/header.html');
+                const headerHTML = await response.text();
+                document.getElementById('header-container').innerHTML = headerHTML;
+            } catch (error) {
+                console.error('Error loading header:', error);
+            }
+        }
+        
         // Fonction async pour charger les films dans la BDD
         async function loadFilms() {
             try {
@@ -80,7 +83,10 @@
         }
         
         // Chargement de la fonction async
-        document.addEventListener('DOMContentLoaded', loadFilms);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHeader();
+            loadFilms();
+        });
     </script>
 </body>
 </html>
