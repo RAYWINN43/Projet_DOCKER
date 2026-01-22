@@ -72,6 +72,16 @@
             loadHeader();
             loadFilms();
         });
+
+        // Défilement du ruban avec la molette
+        document.querySelector('.ribbon').addEventListener('wheel', function(e) {
+            if (e.deltaY > 0) {
+                this.scrollLeft += 200;
+            } else {
+                this.scrollLeft -= 200;
+            }
+            e.preventDefault();
+        });
     </script>
 </body>
 </html>
