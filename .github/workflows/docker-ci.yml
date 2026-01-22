@@ -47,8 +47,10 @@ jobs:
           context: ./netnet
           file: ./netnet/src/back/Dockerfile
           push: ${{ github.event_name == 'push' }}
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta_back.outputs.tags }}
           labels: ${{ steps.meta_back.outputs.labels }}
+
 
       - name: Build (and push) front
         uses: docker/build-push-action@v6
@@ -56,5 +58,7 @@ jobs:
           context: ./netnet/src/front
           file: ./netnet/src/front/Dockerfile
           push: ${{ github.event_name == 'push' }}
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta_front.outputs.tags }}
           labels: ${{ steps.meta_front.outputs.labels }}
+
