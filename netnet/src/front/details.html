@@ -16,7 +16,7 @@
             </div>
             <div class="details-info">
                 <h2 id="detailTitle">Movie Title</h2>
-                <p><span id="detailName">image1.png</span></p>
+                <p></p>
                 
                 <div class="detail-field">
                     <label>Date de publication</label>
@@ -29,12 +29,12 @@
                 </div>
                 
                 <div class="detail-field">
-                    <a href="update.html?id=" id="updateLink" class="update-btn">Modifier ce film</a>
+                    <button id="trailerInfo" class="trailer-btn" style="display: none;">Regarder le trailer</button>
                 </div>
+            
                 
-                <!--<div class="detail-field">
-                    <label>Trailer</label>
-                    <p id="trailerInfo">-</p>-->
+                <div class="detail-field">
+                    <a href="update.html?id=" id="updateLink" class="update-btn">Modifier ce film</a>
                 </div>
             </div>
         </div>
@@ -76,10 +76,14 @@
                 document.getElementById('movieTitle').textContent = film.title + ' - Netnet';
                 document.getElementById('detailMovie').alt = film.title;
                 document.getElementById('detailTitle').textContent = film.title;
-                document.getElementById('detailName').textContent = film.title;
                 document.getElementById('synopsisInfo').textContent = film.synopsis || 'No synopsis available.';
                 document.getElementById('publishedAtInfo').textContent = new Date(film.publishedAt).toLocaleDateString() || '-';
                 document.getElementById('updateLink').href = `update.html?id=${filmId}`;
+                if (film.trailerUrl) {
+                    const trailerBtn = document.getElementById('trailerInfo');
+                    trailerBtn.style.display = 'block';
+                    trailerBtn.onclick = () => window.open(film.trailerUrl, '_blank');
+                }
             } catch (error) {
                 console.error('Error loading film details:', error);
                 document.getElementById('detailTitle').textContent = 'Film not found';

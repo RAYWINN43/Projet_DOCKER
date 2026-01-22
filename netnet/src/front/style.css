@@ -216,6 +216,28 @@ footer {
 #updateForm button[type="button"]:hover {
     background-color: #666;
 }
+.trailer-btn {
+    background-color: #333;
+    color: white;
+    padding: 1rem 5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 1rem auto;
+    transition: background-color 0.2s;
+    display: block;
+}
+.trailer-btn:hover {
+    background-color: #555;
+}
+.trailer-btn[type="button"] {
+    background-color: #888;
+}
+.trailer-btn[type="button"]:hover {
+    background-color: #666;
+}
 @media (max-width: 768px) {
     .details-container {
         grid-template-columns: 1fr;
