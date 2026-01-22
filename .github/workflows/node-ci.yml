@@ -2,9 +2,9 @@ name: Node CI
 
 on:
   push:
-    branches: ["main", "staging", "Evan_3"]
+    branches: ["main", "staging", "Evan_4"]
   pull_request:
-    branches: ["main", "staging", "Evan_3"]
+    branches: ["main", "staging", "Evan_4"]
 
 jobs:
   build:
