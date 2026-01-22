@@ -38,7 +38,7 @@ jobs:
         with:
           images: snowlly/projet_docker-front
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
+            type=raw,value=latest
             type=sha
 
       - name: Build (and push) back
