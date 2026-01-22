@@ -10,7 +10,7 @@ html, body {
 body {
     font-family: Arial, sans-serif;
     color: #f5f5f5;
-    background-color: #ddd;
+    background-color: #ccc;
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -266,7 +266,7 @@ footer {
     cursor: pointer;
     font-weight: bold;
     font-size: 1.1rem;
-    margin: 1rem auto;
+    margin: 2.5rem auto;
     transition: background-color 0.2s;
     display: block;
 }
@@ -289,8 +289,31 @@ footer {
     }
 }
 
-.delete-btn {
-    color:#c00;
+#updateLink {
+    color:#fff;
+    text-decoration: none;
+
+}
+
+.update-btn {
+    color:#fff;
     margin-left: 1rem;
     padding: .2rem;
+    background-color: #999;
+    padding: .75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: .85rem;
+}
+.delete-btn {
+    color:#fff;
+    margin-left: 1rem;
+    padding: .2rem;
+    background-color: #c55;
+    padding: .75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: .85rem;  
 }
