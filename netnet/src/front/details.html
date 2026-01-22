@@ -28,6 +28,10 @@
                     <p id="synopsisInfo">Aucun synopsis disponible.</p>
                 </div>
                 
+                <div class="detail-field">
+                    <a href="update.html?id=" id="updateLink" class="update-btn">Modifier ce film</a>
+                </div>
+                
                 <!--<div class="detail-field">
                     <label>Trailer</label>
                     <p id="trailerInfo">-</p>-->
@@ -38,7 +42,7 @@
     <footer>
     </footer>
     <script>
-        // Load header from separate file
+        // Header
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
@@ -75,6 +79,7 @@
                 document.getElementById('detailName').textContent = film.title;
                 document.getElementById('synopsisInfo').textContent = film.synopsis || 'No synopsis available.';
                 document.getElementById('publishedAtInfo').textContent = new Date(film.publishedAt).toLocaleDateString() || '-';
+                document.getElementById('updateLink').href = `update.html?id=${filmId}`;
             } catch (error) {
                 console.error('Error loading film details:', error);
                 document.getElementById('detailTitle').textContent = 'Film not found';
