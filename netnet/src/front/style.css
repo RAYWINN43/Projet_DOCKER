@@ -238,6 +238,27 @@ footer {
 .trailer-btn[type="button"]:hover {
     background-color: #666;
 }
+.add-movie-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+.add-movie-btn {
+    background-color: #333;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    display: inline-block;
+}
+.add-movie-btn:hover {
+    background-color: #555;
+}
 @media (max-width: 768px) {
     .details-container {
         grid-template-columns: 1fr;

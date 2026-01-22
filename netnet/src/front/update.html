@@ -39,7 +39,7 @@
                     <input type="url" id="trailerUrl" name="trailerUrl" required>
                 </div>
                 
-                <button type="submit">Mettre à jour un film</button>
+                <button type="submit" id="submitBtn">Mettre à jour un film</button>
                 <button type="button" onclick="goBack()">Annuler</button>
             </form>
             
@@ -69,7 +69,8 @@
         // Fonction async pour charger les films dans la BDD
         async function loadMovieData() {
             if (!movieId) {
-                showMessage('No movie ID provided in URL', 'error');
+                document.getElementById('pageTitle').textContent = 'Ajouter un nouveau film';
+                document.getElementById('submitBtn').textContent = 'Ajouter un film';
                 return;
             }
             
@@ -79,6 +80,7 @@
                 const film = await response.json();
                 
                 document.getElementById('pageTitle').textContent = `Mettre à jour : ${film.title}`;
+                document.getElementById('submitBtn').textContent = 'Mettre à jour un film';
                 document.getElementById('title').value = film.title;
                 document.getElementById('synopsis').value = film.synopsis;
                 document.getElementById('publishedAt').value = film.publishedAt.split('T')[0];
@@ -96,11 +98,6 @@
         document.getElementById('updateForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            if (!movieId) {
-                showMessage('No movie ID provided', 'error');
-                return;
-            }
-            
             const filmData = {
                 title: document.getElementById('title').value,
                 synopsis: document.getElementById('synopsis').value,
@@ -110,16 +107,30 @@
             };
             
             try {
-                const response = await fetch(`/api/films/${movieId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(filmData)
-                });
-                
-                if (!response.ok) throw new Error('Erreur lors de la mise à jour');
-                showMessage('Film mis à jour !', 'success');
+                let response;
+                if (movieId) {
+                    // Update existing movie with PUT
+                    response = await fetch(`/api/films/${movieId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(filmData)
+                    });
+                    if (!response.ok) throw new Error('Erreur lors de la mise à jour');
+                    showMessage('Film mis à jour !', 'success');
+                } else {
+                    // Create new movie with POST
+                    response = await fetch('/api/films', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(filmData)
+                    });
+                    if (!response.ok) throw new Error('Erreur lors de la création');
+                    showMessage('Film créé !', 'success');
+                }
                 setTimeout(() => window.location.href = 'home.html', 1500);
             } catch (error) {
                 console.error('Erreur :', error);
@@ -128,7 +139,11 @@
         });
         
         function goBack() {
-            window.location.href = 'details.html?id=' + movieId;
+            if (movieId) {
+                window.location.href = 'details.html?id=' + movieId;
+            } else {
+                window.location.href = 'home.html';
+            }
         }
         
         function showMessage(text, type) {

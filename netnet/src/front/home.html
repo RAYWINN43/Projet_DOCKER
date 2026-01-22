@@ -10,6 +10,9 @@
 </head>
 <body>
     <div id="header-container"></div>
+    <div class="add-movie-container">
+        <a href="update.html" class="add-movie-btn">+ Ajouter un film</a>
+    </div>
     <main>
         
     </main>
@@ -34,7 +37,7 @@
     <footer>
     </footer>
     <script>
-        // Load header from separate file
+        // Header
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
