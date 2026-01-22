@@ -1,0 +1,3 @@
+http://netnet.localhost/home.html {
+  reverse_proxy back:3000
+}
