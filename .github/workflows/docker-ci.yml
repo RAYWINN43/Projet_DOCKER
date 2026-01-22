@@ -2,9 +2,9 @@ name: Docker CI (Build & Push to Docker Hub)
 
 on:
   push:
-    branches: ["main", "staging", "Evan_3"]
+    branches: ["main", "staging", "Evan_4"]
   pull_request:
-    branches: ["main", "staging", "Evan_3"]
+    branches: ["main", "staging", "Evan_4"]
 
 jobs:
   docker:
