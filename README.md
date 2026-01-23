@@ -94,10 +94,10 @@ Corentin partie Front + Debug + connection front et back
 * *Solution :* aller voir le professeur
 
 ## 6. SCREENSHOOT
-home PAGE : ![](images/Screen home.html.png)
-details PAGE : ![](images/Screen details.html.png)
-update PAGE : ![](images/Screen update.html.png)
-update PAGE : ![](images/Home page cloudflare.png)
+home PAGE : ![](images/Screen_home.html.png)
+details PAGE : ![](images/Screen_details.html.png)
+update PAGE : ![](images/Screen_update.html.png)
+update PAGE : ![](images/Home_page_cloudflare.png)
 dockge PAGE : ![](images/screenshot-dockge.png)
 kubernets Home PAGE : ![](images/kubernets_home.png)
 kubernets Pods PAGE : ![](images/kubernets_Pods.png)
