@@ -63,6 +63,15 @@
                 console.error('Error loading header:', error);
             }
         }
+
+        // Fonction pour nettoyer l'URL du trailer
+        function cleanUrl(url) {
+            let newUrl = url;
+            newUrl = newUrl.replace('watch?v=', 'embed/');
+            newUrl = newUrl.substring(0, newUrl.indexOf('?')) || newUrl;
+            newUrl = newUrl + '?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3';
+            return newUrl;
+        }
         
         // Fonction async pour charger les films dans la BDD
         async function loadMovieData() {
@@ -101,7 +110,7 @@
                 synopsis: document.getElementById('synopsis').value,
                 publishedAt: document.getElementById('publishedAt').value,
                 thumbnailUrl: document.getElementById('thumbnailUrl').value,
-                trailerUrl: document.getElementById('trailerUrl').value
+                trailerUrl: cleanUrl(document.getElementById('trailerUrl').value)
             };
             
             try {

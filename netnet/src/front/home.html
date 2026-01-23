@@ -9,15 +9,18 @@
     
 </head>
 <body>
+    <iframe src="" title="YouTube video player" frameborder="0"
+    allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+    referrerpolicy="strict-origin-when-cross-origin" id="myVideo"></iframe>
+
     <div id="header-container"></div>
     
     <main>
-        
     </main>
+
     <!-- Ruban de base avec les placeholders -->
     <div class="ribbon"></div>
 
-    
     <script>
         // Header
         async function loadHeader() {
@@ -54,12 +57,15 @@
                     
                     // Fond d'écran initial
                     if (index === 0) {
-                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                        document.getElementById('myVideo').src = film.trailerUrl;
                     }
                     
                     // Modification du fond d'écran avec un hover
-                    link.addEventListener('mouseenter', () => {
+                    /*link.addEventListener('mouseenter', () => {
                         document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
+                    });*/
+                    link.addEventListener('mouseenter', () => {
+                        document.getElementById('myVideo').src = film.trailerUrl;
                     });
                 });
             } catch (error) {

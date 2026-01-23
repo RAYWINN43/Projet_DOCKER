@@ -26,7 +26,8 @@ h1 {
     margin-left: 2%;
 }
 nav {
-    background: linear-gradient(#0005, #0000);
+    position: relative;
+    background: linear-gradient(#000f, #0000);
     font-size: 1.15rem;
     padding: 1rem;
     padding-bottom: 3rem;
@@ -72,6 +73,7 @@ footer {
     margin-top: 2rem;
 }
 .ribbon {
+    position: relative;
     display: flex;
     gap: 1rem;
     padding: 1rem;
@@ -316,4 +318,15 @@ footer {
     border-radius: 6px;
     font-weight: bold;
     font-size: .85rem;  
+}
+
+#myVideo {
+  position: fixed;
+  overflow: hidden;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: 120%;
+  pointer-events: none;
+  top: -60px; /* ajuste selon besoin */
 }
