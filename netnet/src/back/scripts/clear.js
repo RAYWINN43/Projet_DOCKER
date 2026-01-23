@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const mongoose = require("mongoose");
-const Film = require("./models/film");
+const Film = require("../models/film");
 
 const MONGO_URI = process.env.MONGO_URI;
 

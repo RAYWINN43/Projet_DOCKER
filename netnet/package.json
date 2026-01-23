@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"test passed :)\"",
     "start": "node app.js",
-    "seed": "node src/back/seed.js",
-    "clear": "node src/back/clear.js"
+    "seed": "node src/back/scripts/seed.js",
+    "clear": "node src/back/scripts/clear.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/RAYWINN43/Projet_DOCKER#readme",
   "dependencies": {
+    "cloudflared": "^0.7.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
