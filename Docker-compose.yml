@@ -70,15 +70,16 @@ services:
 
   caddy-private:
     image: caddy:2.10
+    build:
+      context: ./caddy-private
     container_name: caddy-private
+    volumes:
+      - ./caddy-private/caddy_data:/data
+      - ./caddy-private/Caddyfile:/etc/caddy/Caddyfile
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-    volumes:
-      - /app/stacks/projet-docker/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
     restart: unless-stopped
     depends_on:
       back:
@@ -91,9 +92,12 @@ services:
 
   caddy-public:
     image: caddy:2.10
+    build:
+      context: ./caddy-public
     container_name: caddy-public
     volumes:
-      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy-public/caddy_data:/data
+      - ./caddy-public/Caddyfile:/etc/caddy/Caddyfile
     restart: unless-stopped
     depends_on:
       caddy-private:
