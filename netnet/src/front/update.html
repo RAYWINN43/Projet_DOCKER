@@ -47,8 +47,6 @@
         </div>
     </main>
     
-    <footer>
-    </footer>
     
     <script>
         // Récupération de l'ID du film
@@ -69,7 +67,7 @@
         // Fonction async pour charger les films dans la BDD
         async function loadMovieData() {
             if (!movieId) {
-                document.getElementById('pageTitle').textContent = 'Ajouter un nouveau film';
+                document.getElementById('pageTitle').textContent = 'Ajouter un film à votre bibliothèque';
                 document.getElementById('submitBtn').textContent = 'Ajouter un film';
                 return;
             }

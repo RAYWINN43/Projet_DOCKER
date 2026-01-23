@@ -31,19 +31,16 @@
                 <div class="detail-field">
                     <button id="trailerInfo" class="trailer-btn" style="display: none;">Regarder le trailer</button>
                 </div>
-            
                 <div id="message" style="margin-top: 20px;"></div>
                 
                 <div class="detail-field">
-                    <a href="update.html?id=" id="updateLink" class="update-btn">Modifier ce film</a>
+                    <button type="update" class="update-btn"><a href="update.html?id=" id="updateLink">Modifier ce film</a></button>
                     <button type="delete" id="deleteLink" class="delete-btn">Supprimer ce film</button>
                 </div>
             
             </div>
         </div>
     </main>
-    <footer>
-    </footer>
     <script>
         // Header
         async function loadHeader() {
