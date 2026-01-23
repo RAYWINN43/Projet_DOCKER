@@ -65,6 +65,9 @@ Pour lancer le projet localement :
 4. Accéder aux services :
     * Web : `http://netnet.localhost/`
 
+5. Accéder aux services via cloudflare :
+    * 
+
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
