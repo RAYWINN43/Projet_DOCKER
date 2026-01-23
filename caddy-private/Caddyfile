@@ -1,0 +1,9 @@
+http://netnet.localhost {
+  redir / /home.html
+  reverse_proxy back:3000
+}
+
+:80 {
+  redir / /home.html
+  reverse_proxy back:3000
+}
