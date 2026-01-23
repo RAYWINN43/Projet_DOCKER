@@ -18,10 +18,13 @@ services:
   back:
     image: snowlly/projet_docker-back:latest
     container_name: back
+    user: "1001:1001"
     environment:
       MONGO_URI: mongodb://mongo:27017/netflixlike
       PORT: 3000
       NODE_ENV: production
+      PUID: 1001
+      PGID: 1001
     depends_on:
       mongo:
         condition: service_healthy
@@ -46,12 +49,24 @@ services:
     networks:
       - internal
 
-  caddy:
+  cloudflared:
+    image: cloudflare/cloudflared:2026.1.1
+    command: tunnel --no-autoupdate --url http://caddy-public:80
+    container_name: cloudflared
+    user: "1001:1001"
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Paris
+    networks:
+      - internal
+    restart: unless-stopped    
+
+  caddy-private:
     image: caddy:2.10
-    container_name: caddy
+    container_name: caddy-private
     ports:
       - "80:80"
-      # en local, 443 peut déjà être pris -> si ça bloque, commente ces 2 lignes
       - "443:443"
       - "443:443/udp"
     volumes:
@@ -66,7 +81,19 @@ services:
         condition: service_healthy
     networks:
       - internal
-      - public
+      - private
+
+  caddy-public:
+    image: caddy:2.10
+    container_name: caddy-public
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+    restart: unless-stopped
+    depends_on:
+      caddy-private:
+        condition: service_started
+    networks:
+      - internal    
 
   tailscale:
     image: tailscale/tailscale:latest
@@ -98,3 +125,9 @@ networks:
   public:
     name: public
     external: true
+  private:
+    name: private
+    external: true
+  internet:
+    name: internet
+    external: true  

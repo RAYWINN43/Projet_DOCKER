@@ -1,0 +1,8 @@
+{
+  auto_https off
+}
+
+:80 {
+  redir / /home.html
+  reverse_proxy back:3000
+}
