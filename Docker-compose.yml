@@ -59,6 +59,12 @@ services:
     image: cloudflare/cloudflared:2026.1.1
     command: tunnel --no-autoupdate --url http://caddy-public:80
     container_name: cloudflared
+    healthcheck:
+      test: ["CMD-SHELL", "pidof cloudflared >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     user: "1001:1001"
     environment:
       - PUID=1001
@@ -73,6 +79,12 @@ services:
     build:
       context: ./caddy-private
     container_name: caddy-private
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     volumes:
       - ./caddy-private/caddy_data:/data
       - ./caddy-private/Caddyfile:/etc/caddy/Caddyfile
@@ -95,6 +107,12 @@ services:
     build:
       context: ./caddy-public
     container_name: caddy-public
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     volumes:
       - ./caddy-public/caddy_data:/data
       - ./caddy-public/Caddyfile:/etc/caddy/Caddyfile
@@ -109,6 +127,12 @@ services:
     image: tailscale/tailscale:latest
     container_name: tailscale
     hostname: projet-docker
+    healthcheck:
+      test: ["CMD-SHELL", "tailscale status >/dev/null 2>&1 || exit 1"]
+      interval: 20s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
     environment:
       TS_AUTHKEY: ${TS_AUTHKEY}
       TS_STATE_DIR: /var/lib/tailscale
@@ -122,10 +146,17 @@ services:
     restart: unless-stopped
     networks:
       - public
+
   dockge:
     image: louislam/dockge:1
     container_name: dockge
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:5001/ >/dev/null 2>&1 || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     ports:
       - "5001:5001"
     volumes:
