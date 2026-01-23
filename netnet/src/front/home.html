@@ -6,17 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Netnet</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
     
 </head>
 <body>
     <iframe src="" title="YouTube video player" frameborder="0"
-    allow="autoplay; fullscreen; picture-in-picture" allowfullscreen
+    allow="autoplay; fullscreen; picture-in-picture; loop;" allowfullscreen
     referrerpolicy="strict-origin-when-cross-origin" id="myVideo"></iframe>
 
     <div id="header-container"></div>
     
     <main>
     </main>
+    
+    <button class="playpause-btn" id="playPause">⏸ Pause</button>
 
     <!-- Ruban de base avec les placeholders -->
     <div class="ribbon"></div>
@@ -38,7 +41,7 @@
             let newUrl = url;
             newUrl = newUrl.replace('watch?v=', 'embed/');
             newUrl = newUrl.substring(0, newUrl.indexOf('?')) || newUrl;
-            newUrl = newUrl + '?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3';
+            newUrl = newUrl + '?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&modestbranding=1&playsinline=1&rel=0&enablejsapi=1&iv_load_policy=3&playlist=' + newUrl.split('/').pop().split('?')[0];
             return newUrl;
         }
         
@@ -69,6 +72,7 @@
                     if (index === 0) {
                         current_running_index = film._id;
                         document.getElementById('myVideo').src = cleanUrl(film.trailerUrl);
+                        initYouTubePlayer();
                     }
                     
                     // Modification du fond d'écran avec un hover
@@ -76,6 +80,8 @@
                         if (current_running_index !== film._id) {
                             current_running_index = film._id;
                             document.getElementById('myVideo').src = cleanUrl(film.trailerUrl);
+                            document.getElementById('playPause').textContent = '⏸ Pause';
+                            initYouTubePlayer();
                         }
                     });
                 });
@@ -93,12 +99,48 @@
         // Défilement du ruban avec la molette
         document.querySelector('.ribbon').addEventListener('wheel', function(e) {
             if (e.deltaY > 0) {
-                this.scrollLeft += 200;
+                this.scrollLeft += 285;
             } else {
-                this.scrollLeft -= 200;
+                this.scrollLeft -= 285;
             }
             e.preventDefault();
         });
+
+        // Bouton play/pause
+        let player;
+
+        function initYouTubePlayer() {
+            if (window.YT && YT.Player) {
+                player = new YT.Player('myVideo', {
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onError': onPlayerError
+                    }
+                });
+            } else {
+                console.error("L'API YouTube n'est pas chargée.");
+            }
+        }
+
+        function onPlayerReady(event) {
+            console.log("API YouTube prête");
+            const playPauseBtn = document.getElementById('playPause');
+            playPauseBtn.addEventListener('click', () => {
+                if (player.getPlayerState() === YT.PlayerState.PLAYING) {
+                    player.pauseVideo();
+                    playPauseBtn.textContent = '▶ Lecture';
+                } else {
+                    player.playVideo();
+                    playPauseBtn.textContent = '⏸ Pause';
+                }
+            });
+        }
+
+        function onPlayerError(event) {
+            console.log("Player error");
+            console.error("Erreur YouTube :", event.data);
+        }
+
     </script>
 </body>
 </html>
