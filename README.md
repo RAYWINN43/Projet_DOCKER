@@ -86,4 +86,10 @@ Corentin partie Front + Debug + connection front et back
 * *Solution :* commande git pour regler ce probleme 
 
 * *CADDY :* l'affichage marche via le port mais pas via caddy front.localhost
-* *Solution :* changement dans dockercompose + caddy file 
+* *Solution :* changement dans dockercompose + caddy file
+
+* *Dockge :* n'arriver pas voir le dockercompose 
+* *Solution :* changement de chemin dans le dockercompose
+
+* *Cloudflare :* erreur 502 
+* *Solution :* aller voir le professeur
