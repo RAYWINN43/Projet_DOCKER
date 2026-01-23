@@ -64,12 +64,18 @@ Pour lancer le projet localement :
     
 4. Accéder aux services :
     * Web : `http://netnet.localhost/`
+  
+5. Accéder aux services via cloudflare :
+    ```bash
+    docker logs -f cloudflared
+    ```
+    * le lien qui resemble a https://alot-index-recently-aged.trycloudflare.com/ (qui change)
 
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
-Evan partie Back + cloudflare
-Antoine partie DOCKGE + DOCKFILE + README + planteuml
+Evan partie Back + cloudflare + CADDY FILE + CICD + DOCKER HUB
+Antoine partie DOCKGE + DOCKFILE + README + planteuml + Minikube 
 Corentin partie Front + Debug + connection front et back
 
 ### Utilisation de l'IA
@@ -77,27 +83,33 @@ Corentin partie Front + Debug + connection front et back
 * **Usage :**
     * *aide BDD:* nous a donnée des commande CURL pour verrifier le bon fonctionnement de la BDD 
     * *GIT :* aide avec les commande GIT (pour travailler a plusieur + 2,3 bug branch)
-    * *Front :* aide pour du CSS (vibe)
-    * *Debug:* aide pour debug en tout genre (contenaire ne voulant pas ce lancer, probleme dockge)
+    * *Front :* aide pour le Front (vibe)
+    * *Debug:* aide pour debug en tout genre (contenaire ne voulant pas ce lancer, probleme dockge etc)
 
 ## 5. Difficultés rencontrées & Solutions
 * *GITHUB :* des merge qui ne voulez pas se faire car les branche etait distant
 * *Solution :* commande git pour regler ce probleme 
 
-* *CADDY :* l'affichage marche via le port mais pas via caddy front.localhost
+* *CADDY PRIVATE:* l'affichage marche via le port mais pas via caddy front.localhost et redirection automatique qui ne marcher pas 
 * *Solution :* changement dans dockercompose + caddy file
 
 * *Dockge :* n'arriver pas voir le dockercompose 
 * *Solution :* changement de chemin dans le dockercompose
 
-* *Cloudflare :* erreur 502 
-* *Solution :* aller voir le professeur
+* *Cloudflare + CADDY PUBLIC :* erreur 502 
+* *Solution :* aller voir le professeur(changer arbo pour ajouter le CADDY config et data mettre les caffy file au bon endroit et pointage de sercive caddy vers les bon volume et contexte)
+
+*  *API youtube*: api propriaitaire donc difficile a gere
+*  *Solution :* aide IA car difficile(a moitier resolu)
+
+*  *tailscale*: la version ne marche pas dans le fichier docker compose 
+*  *Solution :* on la lattest
 
 ## 6. SCREENSHOOT
 home PAGE : ![](images/Screen_home.html.png)
 details PAGE : ![](images/Screen_details.html.png)
 update PAGE : ![](images/Screen_update.html.png)
-update PAGE : ![](images/Home_page_cloudflare.png)
+home page cloud flare PAGE : ![](images/Home_page_cloudflare.png)
 dockge PAGE : ![](images/screenshot-dockge.png)
 kubernets Home PAGE : ![](images/kubernets_home.png)
 kubernets Pods PAGE : ![](images/kubernets_Pods.png)
