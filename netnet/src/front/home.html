@@ -21,11 +21,9 @@
     
     <button class="playpause-btn" id="playPause">⏸ Pause</button>
 
-    <!-- Ruban de base avec les placeholders -->
     <div class="ribbon"></div>
 
     <script>
-        // Header
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
@@ -36,7 +34,6 @@
             }
         }
 
-        // Fonction pour nettoyer l'URL du trailer
         function cleanUrl(url) {
             let newUrl = url;
             newUrl = newUrl.replace('watch?v=', 'embed/');
@@ -45,7 +42,6 @@
             return newUrl;
         }
         
-        // Fonction async pour charger les films dans la BDD
         async function loadFilms() {
             try {
                 const response = await fetch('/api/films');
@@ -67,15 +63,13 @@
                     
                     link.appendChild(img);
                     ribbon.appendChild(link);
-                    
-                    // Fond d'écran initial
+                                       
                     if (index === 0) {
                         current_running_index = film._id;
                         document.getElementById('myVideo').src = cleanUrl(film.trailerUrl);
                         initYouTubePlayer();
                     }
                     
-                    // Modification du fond d'écran avec un hover
                     link.addEventListener('mouseenter', () => {
                         if (current_running_index !== film._id) {
                             current_running_index = film._id;
@@ -90,13 +84,11 @@
             }
         }
         
-        // Chargement de la fonction async
         document.addEventListener('DOMContentLoaded', () => {
             loadHeader();
             loadFilms();
         });
 
-        // Défilement du ruban avec la molette
         document.querySelector('.ribbon').addEventListener('wheel', function(e) {
             if (e.deltaY > 0) {
                 this.scrollLeft += 285;
@@ -106,7 +98,7 @@
             e.preventDefault();
         });
 
-        // Bouton play/pause
+        
         let player;
 
         function initYouTubePlayer() {

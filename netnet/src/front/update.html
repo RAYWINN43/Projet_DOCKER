@@ -49,11 +49,11 @@
     
     
     <script>
-        // Récupération de l'ID du film
+        
         const params = new URLSearchParams(window.location.search);
         const movieId = params.get('id');
         
-        // Header
+        
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
@@ -64,7 +64,7 @@
             }
         }
         
-        // Fonction async pour charger les films dans la BDD
+        
         async function loadMovieData() {
             if (!movieId) {
                 document.getElementById('pageTitle').textContent = 'Ajouter un film à votre bibliothèque';
@@ -92,7 +92,7 @@
             }
         }
         
-        // Envoi de la requête
+        
         document.getElementById('updateForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -107,7 +107,7 @@
             try {
                 let response;
                 if (movieId) {
-                    // Requête PUT
+                    
                     response = await fetch(`/api/films/${movieId}`, {
                         method: 'PUT',
                         headers: {
@@ -118,7 +118,7 @@
                     if (!response.ok) throw new Error('Erreur lors de la mise à jour');
                     showMessage('Film mis à jour !', 'success');
                 } else {
-                    // Requête POST
+                    
                     response = await fetch('/api/films', {
                         method: 'POST',
                         headers: {
@@ -150,7 +150,7 @@
             messageDiv.style.color = type === 'success' ? 'green' : 'red';
         }
         
-        // Chargement de la fonction async
+        
         document.addEventListener('DOMContentLoaded', () => {
             loadHeader();
             loadMovieData();

@@ -13,7 +13,6 @@ function isValidHttpUrl(str) {
   }
 }
 
-// Tolérant : accepte youtu.be/xxxx, youtube.com/watch?v=xxxx
 function isLikelyYouTubeUrl(str) {
   if (!isValidHttpUrl(str)) return false;
   try {
@@ -94,18 +93,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/**
- * ✅ POST /api/films
- * Ajouter un trailer + description
- * Body attendu:
- * {
- *   "title": "...",
- *   "publishedAt": "2024-01-20",
- *   "synopsis": "...",
- *   "thumbnailUrl": "https://...",
- *   "trailerUrl": "https://www.youtube.com/watch?v=..."
- * }
- */
+
 router.post("/", async (req, res) => {
   try {
     const errors = validateFilmPayload(req.body, { partial: false });
@@ -125,11 +113,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-/**
- * ✅ PUT /api/films/:id
- * Modifier un film (remplace les champs fournis)
- * (si tu préfères PATCH, je te le mets aussi plus bas)
- */
+
 router.put("/:id", async (req, res) => {
   try {
     const errors = validateFilmPayload(req.body, { partial: true });

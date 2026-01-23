@@ -9,21 +9,16 @@ const filmRoutes = require("./src/back/routes/film");
 const app = express();
 app.use(express.json());
 
-// Enable CORS for all routes
 app.use(cors());
 
-// Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "ok", timestamp: new Date() });
 });
 
-// Serve static files from front directory
 app.use(express.static(path.join(__dirname, "src/front")));
 
-// Routes
 app.use("/api/films", filmRoutes);
 
-// Mongo
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Mongo connecté"))

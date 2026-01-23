@@ -42,7 +42,6 @@
         </div>
     </main>
     <script>
-        // Header
         async function loadHeader() {
             try {
                 const response = await fetch('/header.html');
@@ -53,11 +52,9 @@
             }
         }
         
-        // Récupération de l'ID du film
         const params = new URLSearchParams(window.location.search);
         const filmId = params.get('id');
 
-        // Fonction async pour modifier les données avec celles récupérées dans la BDD
         async function loadFilmDetails() {
             if (!filmId) {
                 console.error('No film ID provided');
@@ -71,7 +68,6 @@
                 }
                 const film = await response.json();
                 
-                // Mise à jour de la partie html
                 document.getElementById('detailMovie').src = film.thumbnailUrl;
                 document.getElementById('movieTitle').textContent = film.title + ' - Netnet';
                 document.getElementById('detailMovie').alt = film.title;
@@ -90,7 +86,6 @@
             }
         }
 
-        // Bouton de suppression
         document.getElementById('deleteLink').addEventListener('click', async (e) => {
             e.preventDefault();
             try {
@@ -120,7 +115,6 @@
         }
         
 
-        // Chargement de la fonction async
         document.addEventListener('DOMContentLoaded', () => {
             loadHeader();
             loadFilmDetails();

@@ -1,32 +1,44 @@
 @startuml
 !theme toy
-title Architecture – Netnet 
-actor Client
+title Architecture – Projet "Site bande-annonce film"
+
+actor "Client" as Client
 
 cloud "Internet" as Internet
+cloud "Cloudflare" as Cloudflare
 
 node "Docker Host" {
 
-  package "Public Network" #LightBlue {
-    component "Caddy\n(public)" as Caddy
-    component "Tailscale\n(VPN)" as TS #Pink
+  package "Accès & Reverse Proxy" #LightBlue {
+    component "cloudflared" as Cloudflared
+    component "Caddy\n(Public)" as CaddyPublic
+    component "Caddy\n(Private)" as CaddyPrivate
+    component "Tailscale\n(VPN)" as Tailscale
   }
 
-  package "Internal Network" #LightGreen {
-    component "Front-end" as Front
-    component "Back-end" as API
+  package "Application" #LightGreen {
+    component "Front-end\n(Nginx)" as Front
+    component "Back-end\n(Node / Express)" as API
     database "MongoDB" as DB
   }
 }
 
+' --- Accès public
 Client --> Internet
-Internet --> Caddy : HTTP
-Caddy --> Front : /home
-Caddy --> API 
+Internet --> Cloudflare
+Cloudflare --> Cloudflared : tunnel
+Cloudflared --> CaddyPublic
 
+' --- Reverse proxy interne
+CaddyPublic --> CaddyPrivate
+CaddyPrivate --> Front : pages web
+CaddyPrivate --> API   : /api/*
+
+' --- Base de données
 API --> DB
 
-Client --> TS : Accès privé (VPN)
-TS --> Caddy
+' --- Accès privé
+Client --> Tailscale : VPN
+Tailscale --> CaddyPrivate
 
 @enduml

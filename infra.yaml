@@ -20,7 +20,7 @@ spec:
         - tunnel
         - --no-autoupdate
         - --url
-        - http://front:3001  # Pointé sur ton FRONT port 3001
+        - http://front:3001  
 ---
 apiVersion: v1
 kind: Service
