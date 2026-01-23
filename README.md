@@ -95,4 +95,7 @@ Corentin partie Front + Debug + connection front et back
 * *Solution :* aller voir le professeur
 
 ## 6. SCREENSHOOT
-![](images/screenshot-dockge.png)
+home PAGE : ![](images/Screen home.html.png)
+details PAGE : ![](images/Screen details.html.png)
+update PAGE : ![](images/Screen update.html.png)
+dockge PAGE : ![](images/screenshot-dockge.png)
