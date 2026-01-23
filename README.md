@@ -93,3 +93,6 @@ Corentin partie Front + Debug + connection front et back
 
 * *Cloudflare :* erreur 502 
 * *Solution :* aller voir le professeur
+
+## 6. SCREENSHOOT
+**Screenshot dockge** : ![](images/Capture d'écran 2026-01-23 102352.png)
