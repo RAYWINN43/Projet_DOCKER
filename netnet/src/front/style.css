@@ -300,7 +300,6 @@ footer {
 .update-btn {
     color:#fff;
     margin-left: 1rem;
-    padding: .2rem;
     background-color: #999;
     padding: .75rem 1rem;
     border: none;
@@ -311,7 +310,6 @@ footer {
 .delete-btn {
     color:#fff;
     margin-left: 1rem;
-    padding: .2rem;
     background-color: #c55;
     padding: .75rem 1rem;
     border: none;
@@ -323,10 +321,27 @@ footer {
 #myVideo {
   position: fixed;
   overflow: hidden;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 120%;
+  min-width: 140%;
+  min-height: 130%;
+  right:-19rem;
+  top: -8rem;
   pointer-events: none;
-  top: -60px; /* ajuste selon besoin */
+}
+
+.playpause-btn {
+    position: relative;
+    color:#fff;
+    max-width: fit-content;
+    margin-left: 2rem;
+    margin-bottom: .25rem;
+    background-color: #0009;
+    padding: .75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;  
+}
+
+.playpause-btn:hover {
+    background-color: #000c;
 }
