@@ -32,6 +32,15 @@
                 console.error('Error loading header:', error);
             }
         }
+
+        // Fonction pour nettoyer l'URL du trailer
+        function cleanUrl(url) {
+            let newUrl = url;
+            newUrl = newUrl.replace('watch?v=', 'embed/');
+            newUrl = newUrl.substring(0, newUrl.indexOf('?')) || newUrl;
+            newUrl = newUrl + '?autoplay=1&mute=1&controls=0&showinfo=0&loop=1&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3';
+            return newUrl;
+        }
         
         // Fonction async pour charger les films dans la BDD
         async function loadFilms() {
@@ -39,6 +48,7 @@
                 const response = await fetch('/api/films');
                 const data = await response.json();
                 const films = data.films || [];
+                let current_running_index = 0;
                 
                 const ribbon = document.querySelector('.ribbon');
                 ribbon.innerHTML = '';
@@ -57,15 +67,16 @@
                     
                     // Fond d'écran initial
                     if (index === 0) {
-                        document.getElementById('myVideo').src = film.trailerUrl;
+                        current_running_index = film._id;
+                        document.getElementById('myVideo').src = cleanUrl(film.trailerUrl);
                     }
                     
                     // Modification du fond d'écran avec un hover
-                    /*link.addEventListener('mouseenter', () => {
-                        document.body.style.backgroundImage = `url('${film.thumbnailUrl}')`;
-                    });*/
                     link.addEventListener('mouseenter', () => {
-                        document.getElementById('myVideo').src = film.trailerUrl;
+                        if (current_running_index !== film._id) {
+                            current_running_index = film._id;
+                            document.getElementById('myVideo').src = cleanUrl(film.trailerUrl);
+                        }
                     });
                 });
             } catch (error) {
