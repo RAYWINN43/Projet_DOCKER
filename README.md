@@ -76,17 +76,17 @@ Pour lancer le projet localement :
 ## 4. Méthodologie & Transparence IA
 
 ### Organisation
-Evan partie : Back + Cloudflare + CADDY FILE + CI/CD + DOCKER HUB
-Antoine partie : DOCKGE + DOCKFILE + README + planteUML + Minikube 
-Corentin partie : Front + Debug + connection front et back
+* Evan partie : Back + Cloudflare + CADDY FILE + CI/CD + DOCKER HUB
+* Antoine partie : DOCKGE + DOCKFILE + README + planteUML + Minikube 
+* Corentin partie : Front + Debug + connection front et back
 
 ### Utilisation de l'IA
 * **Outils utilisés :** (ChatGPT 5.2,Github Copilot)
 * **Usage :**
-    * *aide BDD:* nous a donnée des commandes CURL pour vérifier le bon fonctionnement de la BDD 
+    * *aide BDD :* nous a donnée des commandes CURL pour vérifier le bon fonctionnement de la BDD 
     * *GIT :* aide avec les commandes GIT (pour travailler à plusieurs + 2/3 bug branch)
     * *Front :* aide pour le Front (vibe)
-    * *Debug:* aide pour debug en tout genre (contenaires ne voulant pas ce lancer, problèmes dockge, etc...)
+    * *Debug :* aide pour debug en tout genre (contenaires ne voulant pas ce lancer, problèmes dockge, etc...)
 
 ## 5. Difficultés rencontrées & Solutions
 * *GITHUB :* des merges qui ne voulaient pas se faire car elles étaient distantes
